@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+
+</head>
+<body>
+
+    <header>
+        <div class="header__container container">
+            <div id="header__container--menu">
+                <button>
+                    <div class="line line-1"></div>
+                    <div class="line line-2"></div>
+                    <div class="line line-3"></div>
+                </button>
+            </div>
+            <div id="header__container--logo">
+                <a href="index.html">FIND?</a>
+            </div>
+            <nav class="header__container--nav">
+                <ul class="container">
+                    <li><a href="movies.html">Movies</a></li>
+                    <li><a href="tv.html">Tv</a></li>
+                    <li><a href="favourites.html">Favourites</a></li>
+                </ul>
+            </nav>
+            <div id="header__container--search">
+                <button>
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="search__query" class="search__query">
+        <input 
+            placeholder="Search for a movie or tv show" 
+            type="text" 
+            id="search__bar"
+        >
+        <ul id="search__query--results">
+
+        </ul>
+    </div>
+
+    <main class="container">
+        <!-- HERO -->
+        <seciton id="hero">
+            <div id="title">
+                <h1>Find your next best <br> movie & tv series</h1>
+            </div>
+            <div id="slideshow">
+                <div id="carousel">
+                    <a href="info.html" class="movie">
+                        <img src="" alt="">
+                        <h1></h1>
+                    </a>
+                    <a href="info.html" class="movie">
+                        <img src="" alt="">
+                        <h1></h1>
+                    </a>
+                    <a href="info.html" class="movie">
+                        <img src="" alt="">
+                        <h1></h1>
+                    </a>
+                </div>
+            </div>
+        </seciton>
+
+        <!-- MOVIES -->
+        <section id="movies">
+            <div id="movies__title">
+                <h1>Movies</h1>
+            </div>
+            <div id="movies__slide">
+                <div id="movies__slide--container">
+
+                </div>
+            </div>
+            <div id="more">
+                <a href="movies.html">More +</a>
+            </div>
+        </section>
+
+        <!-- TV -->
+        <section id="tv">
+            <div id="tv__title">
+                <h1>Tv</h1>
+            </div>
+            <div id="tv__slide">
+                <div id="tv__slide--container">
+
+                </div>
+            </div>
+            <div id="more">
+                <a href="tv.html">More +</a>
+            </div>
+        </section>
+
+    </main>
+
+
+    <script src="app.js"></script>
+</body>
+</html>

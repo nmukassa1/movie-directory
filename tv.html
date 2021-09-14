@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tv</title>
+
+    <link rel="stylesheet" href="tv.css">
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+
+</head>
+<body>
+
+    <header>
+        <div class="header__container container">
+            <div id="header__container--menu">
+                <button>
+                    <div class="line line-1"></div>
+                    <div class="line line-2"></div>
+                    <div class="line line-3"></div>
+                </button>
+            </div>
+            <div id="header__container--logo">
+                <a href="index.html">FIND?</a>
+            </div>
+            <nav class="header__container--nav">
+                <ul class="container">
+                    <li><a href="movies.html">Movies</a></li>
+                    <li><a href="tv.html">Tv</a></li>
+                    <li><a href="favourites.html">Favourites</a></li>
+                </ul>
+            </nav>
+            <div id="header__container--search">
+                <button>
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    
+    
+    <main class="container">
+        <aside id="custom">
+            <div id="filter" class="custom__mode--container">
+                <button class="custom__mode--name">
+                    Filter 
+                    <i class="fas fa-greater-than arrow"></i> 
+                </button>
+                <div id="genres" class="custom__mode--options">
+                    <h2 id="title">Genre:</h2>
+                    <ul>
+                       
+                    </ul>
+                    
+                </div>
+            </div>
+    
+            <button id="search">Search</button>
+        </aside>
+
+        <section id="tv">
+            <div id="tv__container">
+
+            </div>
+            <button id="load__more">Load more...</button>
+        </section>
+    </main>
+    
+    
+    <script src="tv.js"></script>
+</body>
+</html>

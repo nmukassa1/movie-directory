@@ -1,0 +1,128 @@
+// HEADER STYLE
+
+$tablet: 768px;
+@mixin tablet{
+    @media (min-width: #{$tablet}) {
+        @content;
+    }
+}
+
+header{
+    background-color: #002342;
+    height: 80px;
+    font-weight: 700;
+    .header__container{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+        @include tablet{
+            flex-direction: initial;
+        }
+
+        #header__container--menu{
+            z-index: 2;
+            @include tablet{
+                display: none;
+                z-index: 0;
+            }
+            button{
+                position: relative;
+                width: 36px;
+                height: 24px;
+                .line{
+                    width: 100%;
+                    height: 2px;
+                    background-color: white;
+                    position: absolute;
+                    transition: all .8s ease-in-out;
+                    pointer-events: none;
+                }
+                .line-1{top: 0; left: 0;}
+                .line-2{top: 50%; transform: translateY(-50%);}
+                .line-3{bottom: 0; left: 0;}
+
+                .line-1-toggle{
+                    top: 50%;
+                    transform: translateY(-50%) rotate(45deg);
+                }
+                .line-2-toggle{
+                    opacity: 0;
+                    transform: translateX(-50%);
+                }
+                .line-3-toggle{
+                    bottom: 50%;
+                    transform: translateY(50%) rotate(-45deg);
+                }
+            }
+        }
+
+        #header__container--logo{
+            z-index: 2;
+            a{font-size: 2.43rem;}
+        }
+
+        .header__container--nav{
+            position: absolute;
+            top: 79px;
+            left: -100vw;
+            width: 100vw;
+            background-color: #002342;
+            transition: all .8s ease-in-out;
+            z-index: 1;
+            padding: 2rem 0;
+
+            @include tablet{
+                position: relative;
+                background-color: transparent;
+                top: initial;
+                left: initial;
+                width: initial;
+                height: initial;
+            }
+            ul{
+                display: flex;
+                flex-direction: column;
+                @include tablet{
+                    position: relative;
+                    flex-direction: initial;
+                    justify-content: initial;
+                    height: initial;
+                    width: initial;
+                    top: initial;
+                    align-items: center;
+                }
+                li + li {
+                    margin-top: 2rem;
+                    @include tablet{
+                        margin-left: 2rem;
+                        margin-top: 0;
+                    }
+                }
+
+                a{
+                    font-size: 2.43rem;
+                    font-weight: 500;
+                    @include tablet{
+                        font-size: initial;
+                    }
+                }
+            }
+        }
+        .header__container--nav-toggle{
+            left: 0;
+        }
+        #header__container--search{
+            z-index: 2;
+            display: none;
+        }
+
+        i{
+            color: white;
+            font-size: 1.3rem;
+        }
+    }
+}
+
+
