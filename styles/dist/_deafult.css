@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: roboto;
+}
+
+button {
+  background: transparent;
+  cursor: pointer;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.contain {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+}
+
+.mx-auto {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+img {
+  display: block;
+}
