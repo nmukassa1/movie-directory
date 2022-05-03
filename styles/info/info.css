@@ -53,20 +53,50 @@ nav a + a {
 }
 
 #hero {
-  height: 100vh;
-  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: center;
+  color: white;
+  padding: 100px 0 100px 5%;
 }
 
-#backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
+#s-details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 10px;
+  font-size: .8rem;
 }
 
-#backdrop img {
-  width: 100%;
-  -webkit-filter: brightness(0.5);
-          filter: brightness(0.5);
+#bio {
+  width: 40%;
+  margin: 20px 0;
+  line-height: 21px;
+}
+
+#title {
+  font-weight: 700;
+  font-size: 62px;
+}
+
+#hero-buttons button {
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+#hero-buttons button:first-child {
+  margin-right: 20px;
+}
+
+.profile-container {
+  width: 50px;
+  height: 50px;
+  background-repeat: no-repeat;
+  border-radius: 10999px;
+  background-size: cover;
+  background-position: center;
 }
 /*# sourceMappingURL=info.css.map */
