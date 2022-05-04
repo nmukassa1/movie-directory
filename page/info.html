@@ -18,7 +18,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-    <header class="">
+    <!-- <header class="">
         <div class="mx-auto contain">
             <div id="brand">
                 <a href="../index.html">FIND?</a>
@@ -33,7 +33,7 @@
     </header>
     
     
-    <section id="hero">
+    <section id="hero" class="hero-bg">
         <h1 id="title"></h1>
         <div id="s-details">
             <div id="run-time"><span id="hr"></span> <span id="min"></span></div>
@@ -46,17 +46,71 @@
             <button><i class="fa-solid fa-circle-play"></i></button>
             <button><i class="fa-regular fa-heart"></i></button>
         </div>
-    </section>
+        <div id="hero-bg"></div>
+    </section> -->
+
+
+
+
+
+    <div id="top">
+        <header class="">
+            <div class="mx-auto contain">
+                <div id="brand">
+                    <a href="../index.html">FIND?</a>
+                </div>
+                <nav>
+                    <a href="">Movies</a>
+                    <a href="">Tv</a>
+                    <a href="">Favourites</a>
+                </nav>
+                <button id="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </header>
+        
+        
+        <section id="hero" class="hero-bg">
+            <div id="hero-content">
+                <h1 id="title"></h1>
+                <div id="s-details">
+                    <div id="run-time"><span id="hr"></span> <span id="min"></span></div>
+                    <div id="release"></div>
+                    <div id="genre"></div>
+                </div>
+                <p id="bio"></p>
+        
+                <div id="hero-buttons">
+                    <button><i class="fa-solid fa-circle-play"></i></button>
+                    <button><i class="fa-regular fa-heart"></i></button>
+                </div>
+            </div>
+            <div id="hero-bg"></div>
+        </section>
+    </div>
+
+    
 
     <section id="cast-crew">
         <div id="crew">
             <div id="director">
                 <h1>Director</h1>
-                <div id="director-name"></div>
+                <div id="director-list"></div>
+                <!-- <div id="director-name"></div>
                 <div class="profile-container" id="director-img">
-                    <!-- <img src="" alt="" id="director-img"> -->
-                </div>
+                    
+                </div> -->
             </div>
+            <div id="cast">
+                <h1>Cast</h1>
+                <div id="cast-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="recommendations">
+        <h1>Recommendations</h1>
+        <div id="recommendations__container">
+
         </div>
     </section>
     <!-- <iframe src="" frameborder="0" allowfullscreen="true"></iframe> -->

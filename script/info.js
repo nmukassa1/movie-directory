@@ -13,6 +13,9 @@ $('document').ready(function(){
 
     let ccURL;
     let videoURL;
+    let recommendationsURL
+
+    
 
     if(mediaType === 'movie'){
         apiURL = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-UK`
@@ -20,12 +23,16 @@ $('document').ready(function(){
         ccURL = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}&language=en-UK`
 
         videoURL = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${apiKey}&language=en-UK`
+
+        recommendationsURL = `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${apiKey}&language=en-UK&page=1`
     } else {
         apiURL = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-UK`
 
         ccURL = `https://api.themoviedb.org/3/tv/${id}/credits?api_key=${apiKey}&language=en-UK`
 
         videoURL = `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${apiKey}&language=en-UK`
+
+        recommendationsURL = `https://api.themoviedb.org/3/tv/${id}/recommendations?api_key=${apiKey}&language=en-UK&page=1`
     }
 
     
@@ -83,8 +90,12 @@ $('document').ready(function(){
 
 
         //CAST & CREW REQUEST
-        castCrew(ccURL)
+        castCrewList(ccURL, 'director')
+        castCrewList(ccURL, 'cast')
         
+
+        //Fetch similiar movies / tv series
+        recommendations()
        
     })
     .catch(err => console.log(err))
@@ -96,13 +107,14 @@ $('document').ready(function(){
         .then(res => res.json())
         .then(data => {
 
-            console.log(data)
+            //console.log(data)
             const baseURL = data.images.base_url;
             const backdropSize = data.images.backdrop_sizes[1];
             const backdropPath = item.backdrop_path;
             const uniqueURL =`${baseURL}${backdropSize}${backdropPath}`;
 
-            $('#hero').css('background-image', `url(${uniqueURL})`)
+            
+            $('#hero-bg').css('background-image', `url(${uniqueURL})`)
         })
     }
 
@@ -110,7 +122,7 @@ $('document').ready(function(){
         fetch(url)
         .then(res => res.json())
         .then(data =>{
-            console.log(data)
+            //console.log(data)
             let key;
             for(let i = 0; i < data.results.length; i++){
                 if(data.results[i].site === `YouTube` && data.results[i].type === `Trailer`){
@@ -127,43 +139,147 @@ $('document').ready(function(){
         })
     }
 
-    function castCrew(castCrewUrl){
+    function castCrewList(castCrewUrl, placement){
         fetch(castCrewUrl)
         .then(res => res.json())
         .then(data => {
-            console.log(data)
-            const crewArr = data.crew;
+           // console.log(data, placement, 'castCrewList')
 
-            let director;
-            let directorId;
-            for(let i = 0; i < crewArr.length; i++){
-                if(crewArr[i].job != 'Director'){
-                    continue
+
+            let profileName;
+            let profileId;
+            let appendTo;
+            if(placement === 'director'){
+                appendTo = placement
+                //If the crew length is 0 = Directors doesn't exist
+                if(data.crew.length === 0){
+                    profileName = 'No Directors'
+                    $(`#${placement}-list`).append(profileName)
+                    //alert('hh')
                 } else{
-                    director = crewArr[i].name
-                    directorId = crewArr[i].id
-                    break
+                    for(let i = 0; i < data.crew.length; i++){
+                        //If crew length is > 0 = Possibility director exists
+                        if(data.crew[i].job != 'Director'){
+                            if(i === data.crew.length - 1){
+                                //Having looped thru every item and director still doesn't exist, do this v
+                                $(`#${placement}-list`).append('No Directors')
+                            } else{
+                                //Continue iteration
+                                continue
+                            }
+                        } else{
+                            profileName = data.crew[i].name
+                            profileId = data.crew[i].id
+                            appendTo = placement
+                            personImg(appendTo, data, profileId, profileName)
+                            break
+                        }
+                    }
+                }
+            } else{
+                appendTo = placement;
+                for(let i = 0; i < 5; i++){
+                    profileName = data.cast[i].name;
+                    profileId = data.cast[i].id;
+                    personImg(appendTo, data, profileId, profileName)
                 }
             }
-            $('#director-name').text(director)
-
-            personImg(directorId)
 
         })
     }
 
-    function personImg(id){
-        fetch(`https://api.themoviedb.org/3/person/${id}/images?api_key=${apiKey}`)
+    function personImg(appendTo, castCrewList, profileId, profileName){
+        //console.log(castCrewList, 'personImg')
+
+        fetch(`https://api.themoviedb.org/3/person/${profileId}/images?api_key=${apiKey}`)
         .then(res => res.json())
         .then( data => {
-            console.log(data)
+            //console.log(data, 'personImg Fetch request')
+            //console.log(castCrewList)
 
-            if(data.profiles.length >! 1){
-                $("#director-img").css('background-image', `url(https://image.tmdb.org/t/p/w45${data.profiles[0].file_path})`)
+            if(data.profiles.length > 0){
+                $(`#${appendTo}-list`).append(`
+                <div class="profile">
+                    <div id="${data.id}-img" class="img-container"></div>
+                    <div id="${appendTo}-name">${profileName}</div>
+                </div>
+                `)
+
+                $(`#${data.id}-img`).css('background-image', `url(https://image.tmdb.org/t/p/w185${data.profiles[0].file_path})`)
             } else{
-                $('#director-img').text('No image was found')
+                $(`#${appendTo}-list`).append('No image was found')
             }
 
+        })
+    }
+
+    function recommendations(){
+        fetch(recommendationsURL)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+
+            let name;
+            let id;
+            let posterPath;
+            const postAmount = 12;
+            for(let i = 0; i < postAmount; i++){
+                if(mediaType === 'movie'){
+                    if(data.results.length === 0){
+                        $('#recommendations__container').text('No recommendations were found') 
+                    } else{
+                        name = data.results[i].title
+                        id = data.results[i].id
+                        posterPath = data.results[i].poster_path
+                        getPoster(id, posterPath, postAmount)
+                    }
+                } else{
+                    name = data.results[i].name
+                    id = data.results[i].id
+                    posterPath = data.results[i].poster_path
+                    getPoster(id, posterPath, postAmount)
+                }
+            }
+        })
+    }
+
+    function getPoster(id, posterPath, postAmount){
+        fetch(imgApi)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            const baseURL = data.images.base_url;
+            const posterSize = data.images.poster_sizes[1]
+            
+            function post(postAmount){
+                let uniqueURL =`${baseURL}${posterSize}${posterPath}`;
+                console.log(uniqueURL)
+
+                let element = $(`
+                    <a href="info.html" id="${id}"class="item ${mediaType}">
+                        <img class="overlay poster" src="${uniqueURL}">
+                    </a>
+                `);
+
+                $('#recommendations__container').append(element)
+            }
+
+            post(postAmount)
+
+            
+            const poster = document.querySelectorAll('a[href="info.html"]');
+            poster.forEach(item => {
+                item.addEventListener('click', function(){
+                    if(item.classList.contains('movie')){
+                        localStorage.setItem('mediaType', `movie`)
+                    } else{
+                        localStorage.setItem('mediaType', `tv`)
+                    }
+                    localStorage.setItem('id', `${item.id}`)
+                    //localStorage.setItem('mediaType', `${item.id}`)
+                })
+            })
+        
         })
     }
 
