@@ -231,5 +231,29 @@ $('document').ready(function () {
         });
       });
     });
+  } //When window loads
+
+
+  function onLoad() {
+    if (localStorage.getItem("".concat(mediaType, "-").concat(id))) {
+      $('#favourites').css('color', '#EB5353');
+    } else {
+      $('#favourites').css('color', '');
+    }
   }
+
+  onLoad();
+  $('#favourites').click(function () {
+    var favourited = localStorage.getItem("".concat(mediaType, "-").concat(id));
+
+    if (favourited) {
+      localStorage.removeItem("".concat(mediaType, "-").concat(id));
+      $('#favourites').css('color', '');
+      $('#favourites').removeClass('favourites-animation');
+    } else {
+      localStorage.setItem("".concat(mediaType, "-").concat(id), "".concat(id));
+      $('#favourites').css('color', '#EB5353');
+      $('#favourites').addClass('favourites-animation');
+    }
+  });
 });

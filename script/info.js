@@ -1,5 +1,7 @@
 $('document').ready(function(){
 
+    
+
     const year = new Date().getFullYear();
     const apiKey = '335228310c6b751750199c1a453b7347';
     //Api to get image details like sizes and logos
@@ -14,6 +16,8 @@ $('document').ready(function(){
     let ccURL;
     let videoURL;
     let recommendationsURL
+
+    
 
     
 
@@ -283,5 +287,28 @@ $('document').ready(function(){
         })
     }
 
+    //When window loads
+    function onLoad(){
+        if(localStorage.getItem(`${mediaType}-${id}`)){
+            $('#favourites').css('color', '#EB5353')
+        } else{
+            $('#favourites').css('color', '')
+        }
+    }
+
+    onLoad()
+
+    $('#favourites').click(() =>{
+        const favourited = localStorage.getItem(`${mediaType}-${id}`);
+        if(favourited){
+            localStorage.removeItem(`${mediaType}-${id}`)
+            $('#favourites').css('color', '')
+            $('#favourites').removeClass('favourites-animation')
+        } else{
+            localStorage.setItem(`${mediaType}-${id}`, `${id}`)
+            $('#favourites').css('color', '#EB5353')
+            $('#favourites').addClass('favourites-animation')
+        }
+    })
     
 })
