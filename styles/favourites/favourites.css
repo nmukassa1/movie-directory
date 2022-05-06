@@ -51,4 +51,19 @@ header a, header i {
 nav a + a {
   margin-left: 30px;
 }
+
+#poster-container {
+  padding: 10px 5% 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+#poster-container a {
+  border-radius: 10px;
+  overflow: hidden;
+}
 /*# sourceMappingURL=favourites.css.map */
