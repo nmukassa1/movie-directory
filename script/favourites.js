@@ -36,30 +36,31 @@ $(document).ready(function(){
    
     if(movieId[0] != null ){
         movieId.forEach(item => {
-            getInfo(`https://api.themoviedb.org/3/movie/${item}?api_key=${apiKey}&language=en-UK`)
+            getInfo(`https://api.themoviedb.org/3/movie/${item}?api_key=${apiKey}&language=en-UK`, 'movie')
         })
     } 
     
     if(tvId[0] != null ){
         tvId.forEach(item => {
-            getInfo(`https://api.themoviedb.org/3/tv/${item}?api_key=${apiKey}&language=en-UK`)
+            getInfo(`https://api.themoviedb.org/3/tv/${item}?api_key=${apiKey}&language=en-UK`, 'tv')
         })
     } 
 
     
-    function getInfo(url){
+    function getInfo(url, mediaType){
         fetch(url)
         .then(res => res.json())
         .then(data => {
             console.log(data)
             const posterPath = data.poster_path;
+            const id = data.id
             
-            poster(posterPath)
+            poster(posterPath, id, mediaType)
             
         })
     }
 
-    function poster(posterPath){
+    function poster(posterPath, id, mediaType){
         fetch(imgApi)
         .then(res => res.json())
         .then(data => {
@@ -71,8 +72,16 @@ $(document).ready(function(){
             const link = `${baseURL}${size}${posterPath}`;
 
             $('#poster-container').append(`
-                <a href="info.html" ><img src="${link}"></a>
+                <a href="info.html" id="${id}" class="${mediaType}"><img src="${link}"></a>
             `)            
+
+
+            document.querySelectorAll('#poster-container a').forEach(item => {
+                item.addEventListener('click', () => {
+                    localStorage.setItem('id', `${item.id}`)
+                    localStorage.setItem('mediaType', `${item.className}`)
+                })
+            })
         })
     }
 

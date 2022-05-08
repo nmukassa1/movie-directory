@@ -36,27 +36,28 @@ $(document).ready(function () {
 
   if (movieId[0] != null) {
     movieId.forEach(function (item) {
-      getInfo("https://api.themoviedb.org/3/movie/".concat(item, "?api_key=").concat(apiKey, "&language=en-UK"));
+      getInfo("https://api.themoviedb.org/3/movie/".concat(item, "?api_key=").concat(apiKey, "&language=en-UK"), 'movie');
     });
   }
 
   if (tvId[0] != null) {
     tvId.forEach(function (item) {
-      getInfo("https://api.themoviedb.org/3/tv/".concat(item, "?api_key=").concat(apiKey, "&language=en-UK"));
+      getInfo("https://api.themoviedb.org/3/tv/".concat(item, "?api_key=").concat(apiKey, "&language=en-UK"), 'tv');
     });
   }
 
-  function getInfo(url) {
+  function getInfo(url, mediaType) {
     fetch(url).then(function (res) {
       return res.json();
     }).then(function (data) {
       console.log(data);
       var posterPath = data.poster_path;
-      poster(posterPath);
+      var id = data.id;
+      poster(posterPath, id, mediaType);
     });
   }
 
-  function poster(posterPath) {
+  function poster(posterPath, id, mediaType) {
     fetch(imgApi).then(function (res) {
       return res.json();
     }).then(function (data) {
@@ -64,7 +65,13 @@ $(document).ready(function () {
       var baseURL = data.images.base_url;
       var size = data.images.poster_sizes[1];
       var link = "".concat(baseURL).concat(size).concat(posterPath);
-      $('#poster-container').append("\n                <a href=\"info.html\" ><img src=\"".concat(link, "\"></a>\n            "));
+      $('#poster-container').append("\n                <a href=\"info.html\" id=\"".concat(id, "\" class=\"").concat(mediaType, "\"><img src=\"").concat(link, "\"></a>\n            "));
+      document.querySelectorAll('#poster-container a').forEach(function (item) {
+        item.addEventListener('click', function () {
+          localStorage.setItem('id', "".concat(item.id));
+          localStorage.setItem('mediaType', "".concat(item.className));
+        });
+      });
     });
   }
 });
