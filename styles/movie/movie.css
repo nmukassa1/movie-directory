@@ -1,0 +1,86 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: roboto;
+}
+
+button {
+  background: transparent;
+  cursor: pointer;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.contain {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 80px;
+}
+
+.mx-auto {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+img {
+  display: block;
+}
+
+header {
+  background-color: #002342;
+}
+
+header a, header i {
+  color: white;
+}
+
+nav a + a {
+  margin-left: 30px;
+}
+
+#contain {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2fr;
+      grid-template-columns: 1fr 2fr;
+}
+
+#genre-selection {
+  -webkit-box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
+          box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
+  padding: 10px;
+}
+
+#genre-selection > ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 10px;
+}
+
+#genre-selection > ul li {
+  list-style: none;
+}
+
+#genre-selection > ul li button {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 100px;
+  padding: .5rem .7rem;
+}
+/*# sourceMappingURL=movie.css.map */

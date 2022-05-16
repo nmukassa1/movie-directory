@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Favourites</title>
+    <title>Movie</title>
 
-    <link rel="stylesheet" href="../styles/favourites/favourites.css">
+    <link rel="stylesheet" href="../styles/movie/movie.css">
 
     <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,16 +25,25 @@
                 <a href="../index.html">FIND?</a>
             </div>
             <nav>
-                <a href="movie.html">Movies</a>
+                <a href="./movie.html">Movies</a>
                 <a href="">Tv</a>
-                <a href="">Favourites</a>
+                <a href="./favourites.html">Favourites</a>
             </nav>
             <button id="search"><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
     </header>
+    
+    <div id="contain" class="mx-auto">
+        <aside id="genre-selection">
+            <h1>Filter</h1>
+            <ul></ul>
+            <button>Search</button>
+        </aside>
+        <main>
+            <section id="movie-container"></section>
+        </main>
+    </div>
 
-    <div id="poster-container"></div>
-
-    <script src="../script/favourites.js"></script>
+    <script src="../script/movie.js"></script>
 </body>
 </html>
