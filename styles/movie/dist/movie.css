@@ -51,6 +51,11 @@ nav a + a {
   margin-top: 40px;
   position: relative;
 }
+@media (max-width: 414px) {
+  #contain {
+    display: initial;
+  }
+}
 
 #genre-selection {
   box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
@@ -78,6 +83,11 @@ nav a + a {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 20px;
+}
+@media (max-width: 414px) {
+  #movie-container {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 #movie-container .item {
   box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);

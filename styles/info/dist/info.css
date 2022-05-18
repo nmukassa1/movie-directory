@@ -84,8 +84,13 @@ nav a + a {
 
 #bio {
   max-width: 546px;
-  max-width-margin: 20px 0;
-  max-width-line-height: 21px;
+  margin: 20px 0;
+  line-height: 21px;
+}
+@media (max-width: 414px) {
+  #bio {
+    margin-right: 5%;
+  }
 }
 
 #title {
@@ -109,6 +114,12 @@ nav a + a {
   background-size: cover;
   background-position: center;
 }
+@media (max-width: 414px) {
+  .img-container {
+    width: 70px;
+    height: 70px;
+  }
+}
 
 .profile {
   display: flex;
@@ -119,6 +130,11 @@ nav a + a {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
+}
+@media (max-width: 414px) {
+  #cast-list {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 #cast-crew {
@@ -133,9 +149,17 @@ nav a + a {
   padding-left: 5%;
 }
 #recommendations__container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+@media (max-width: 414px) {
+  #recommendations__container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+#recommendations__container .item {
+  width: fit-content;
 }
 
 @keyframes favourites {

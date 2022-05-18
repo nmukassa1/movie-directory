@@ -62,6 +62,12 @@ nav a + a {
   position: relative;
 }
 
+@media (max-width: 414px) {
+  #contain {
+    display: initial;
+  }
+}
+
 #genre-selection {
   -webkit-box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
           box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
@@ -99,6 +105,13 @@ nav a + a {
   -ms-grid-columns: (1fr)[5];
       grid-template-columns: repeat(5, 1fr);
   grid-gap: 20px;
+}
+
+@media (max-width: 414px) {
+  #movie-container {
+    -ms-grid-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+  }
 }
 
 #movie-container .item {
