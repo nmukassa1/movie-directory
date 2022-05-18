@@ -54,13 +54,26 @@ $(document).ready(function () {
       });
 
       function loadMoreMovie(genreArr) {
-        $('#more').click(function () {
-          var genreJoined = genreArr.join(',');
-          pageNumber++;
-          movieApi = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(pageNumber, "&with_genres=").concat(genreJoined);
-          console.log(pageNumber, movieApi);
-          var load = new getMovie(movieApi, 'movie-container', 'movie');
-          load.getItems();
+        //    $('#more').click(() => {
+        //         const genreJoined = genreArr.join(',');
+        //         pageNumber++
+        //         movieApi = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
+        //         console.log(pageNumber, movieApi)
+        //         const load = new getMovie(movieApi, 'movie-container', 'movie')
+        //         load.getItems()
+        //     })
+        $(window).scroll(function () {
+          var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+          var scrolled = window.scrollY;
+
+          if (scrolled === scrollable) {
+            var genreJoined = genreArr.join(',');
+            pageNumber++;
+            movieApi = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(pageNumber, "&with_genres=").concat(genreJoined); //console.log(pageNumber, movieApi)
+
+            var load = new getMovie(movieApi, 'movie-container', 'movie');
+            load.getItems();
+          }
         });
       }
 

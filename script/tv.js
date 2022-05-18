@@ -51,14 +51,27 @@ $(document).ready(() =>{
            })
 
            function loadMoreTv(genreArr){
-               $('#more').click(() => {
+            //    $('#more').click(() => {
+            //         const genreJoined = genreArr.join(',');
+            //         pageNumber++
+            //         tvApi = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
+            //         console.log(pageNumber, tvApi)
+            //         const load = new getTv(tvApi, 'tv-container', 'tv')
+            //         load.getItems()
+            //     })
+            $(window).scroll(() => {
+                const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+                const scrolled = window.scrollY;
+        
+                if(scrolled === scrollable){
                     const genreJoined = genreArr.join(',');
                     pageNumber++
                     tvApi = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
-                    console.log(pageNumber, tvApi)
+                    //console.log(pageNumber, tvApi)
                     const load = new getTv(tvApi, 'tv-container', 'tv')
                     load.getItems()
-                })
+                }
+           })
            }
            loadMoreTv(genreArr)
         })

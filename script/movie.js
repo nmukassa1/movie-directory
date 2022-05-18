@@ -51,14 +51,27 @@ $(document).ready(() =>{
            })
 
            function loadMoreMovie(genreArr){
-               $('#more').click(() => {
+            //    $('#more').click(() => {
+            //         const genreJoined = genreArr.join(',');
+            //         pageNumber++
+            //         movieApi = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
+            //         console.log(pageNumber, movieApi)
+            //         const load = new getMovie(movieApi, 'movie-container', 'movie')
+            //         load.getItems()
+            //     })
+            $(window).scroll(() => {
+                const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+                const scrolled = window.scrollY;
+        
+                if(scrolled === scrollable){
                     const genreJoined = genreArr.join(',');
                     pageNumber++
                     movieApi = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
-                    console.log(pageNumber, movieApi)
+                    //console.log(pageNumber, movieApi)
                     const load = new getMovie(movieApi, 'movie-container', 'movie')
                     load.getItems()
-                })
+                }
+           })
            }
            loadMoreMovie(genreArr)
         })
@@ -144,5 +157,8 @@ $(document).ready(() =>{
     const movieTrending = new getMovie(movieApi, 'movie-container', 'movie');
     movieTrending.getItems()
 
+
+   
+    
    
 })
