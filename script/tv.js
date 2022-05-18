@@ -6,9 +6,9 @@ $(document).ready(() =>{
     const imgApi = `https://api.themoviedb.org/3/configuration?api_key=${apiKey}`;
 
     let pageNumber = 1;
-    let movieApi = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}`;
+    let tvApi = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}`;
 
-    const genreId = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-UK`;
+    const genreId = `https://api.themoviedb.org/3/genre/tv/list?api_key=${apiKey}&language=en-UK`;
 
     function genreList(){
         fetch(genreId)
@@ -44,30 +44,30 @@ $(document).ready(() =>{
            $('#genre-search').click(() =>{
             pageNumber = 1;
             const genreJoined = genreArr.join(',');
-            movieApi = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=1&with_genres=${genreJoined}`;
-            const getMovieByGenre = new getMovie(movieApi, 'movie-container', 'movie');
-            $('#movie-container').html('')
-            getMovieByGenre.getItems()
+            tvApi = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=1&with_genres=${genreJoined}`;
+            const getTvByGenre = new getTv(tvApi, 'tv-container', 'tv');
+            $('#tv-container').html('')
+            getTvByGenre.getItems()
            })
 
-           function loadMoreMovie(genreArr){
+           function loadMoreTv(genreArr){
                $('#more').click(() => {
                     const genreJoined = genreArr.join(',');
                     pageNumber++
-                    movieApi = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
-                    console.log(pageNumber, movieApi)
-                    const load = new getMovie(movieApi, 'movie-container', 'movie')
+                    tvApi = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
+                    console.log(pageNumber, tvApi)
+                    const load = new getTv(tvApi, 'tv-container', 'tv')
                     load.getItems()
                 })
            }
-           loadMoreMovie(genreArr)
+           loadMoreTv(genreArr)
         })
     }
 
     genreList()
     
 
-    class getMovie {
+    class getTv {
         constructor(url, place, mediaType){
             this.url = url;
             this.place = place;
@@ -123,8 +123,8 @@ $(document).ready(() =>{
                     const poster = document.querySelectorAll('a[href="./info.html"]');
                     poster.forEach(item => {
                         item.addEventListener('click', function(){
-                            if(item.classList.contains('movie')){
-                                localStorage.setItem('mediaType', `movie`)
+                            if(item.classList.contains('tv')){
+                                localStorage.setItem('mediaType', `tv`)
                             } else{
                                 localStorage.setItem('mediaType', `tv`)
                             }
@@ -141,8 +141,8 @@ $(document).ready(() =>{
 
     }
 
-    const movieTrending = new getMovie(movieApi, 'movie-container', 'movie');
-    movieTrending.getItems()
+    const tvTrending = new getTv(tvApi, 'tv-container', 'tv');
+    tvTrending.getItems()
 
    
 })

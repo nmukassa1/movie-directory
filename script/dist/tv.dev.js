@@ -12,8 +12,8 @@ $(document).ready(function () {
 
   var imgApi = "https://api.themoviedb.org/3/configuration?api_key=".concat(apiKey);
   var pageNumber = 1;
-  var movieApi = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(pageNumber);
-  var genreId = "https://api.themoviedb.org/3/genre/movie/list?api_key=".concat(apiKey, "&language=en-UK");
+  var tvApi = "https://api.themoviedb.org/3/discover/tv?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(pageNumber);
+  var genreId = "https://api.themoviedb.org/3/genre/tv/list?api_key=".concat(apiKey, "&language=en-UK");
 
   function genreList() {
     fetch(genreId).then(function (res) {
@@ -47,41 +47,41 @@ $(document).ready(function () {
       $('#genre-search').click(function () {
         pageNumber = 1;
         var genreJoined = genreArr.join(',');
-        movieApi = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=1&with_genres=").concat(genreJoined);
-        var getMovieByGenre = new getMovie(movieApi, 'movie-container', 'movie');
-        $('#movie-container').html('');
-        getMovieByGenre.getItems();
+        tvApi = "https://api.themoviedb.org/3/discover/tv?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=1&with_genres=").concat(genreJoined);
+        var getTvByGenre = new getTv(tvApi, 'tv-container', 'tv');
+        $('#tv-container').html('');
+        getTvByGenre.getItems();
       });
 
-      function loadMoreMovie(genreArr) {
+      function loadMoreTv(genreArr) {
         $('#more').click(function () {
           var genreJoined = genreArr.join(',');
           pageNumber++;
-          movieApi = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(pageNumber, "&with_genres=").concat(genreJoined);
-          console.log(pageNumber, movieApi);
-          var load = new getMovie(movieApi, 'movie-container', 'movie');
+          tvApi = "https://api.themoviedb.org/3/discover/tv?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(pageNumber, "&with_genres=").concat(genreJoined);
+          console.log(pageNumber, tvApi);
+          var load = new getTv(tvApi, 'tv-container', 'tv');
           load.getItems();
         });
       }
 
-      loadMoreMovie(genreArr);
+      loadMoreTv(genreArr);
     });
   }
 
   genreList();
 
-  var getMovie =
+  var getTv =
   /*#__PURE__*/
   function () {
-    function getMovie(url, place, mediaType) {
-      _classCallCheck(this, getMovie);
+    function getTv(url, place, mediaType) {
+      _classCallCheck(this, getTv);
 
       this.url = url;
       this.place = place;
       this.mediaType = mediaType;
     }
 
-    _createClass(getMovie, [{
+    _createClass(getTv, [{
       key: "getItems",
       value: function getItems() {
         var _this = this;
@@ -124,8 +124,8 @@ $(document).ready(function () {
             var poster = document.querySelectorAll('a[href="./info.html"]');
             poster.forEach(function (item) {
               item.addEventListener('click', function () {
-                if (item.classList.contains('movie')) {
-                  localStorage.setItem('mediaType', "movie");
+                if (item.classList.contains('tv')) {
+                  localStorage.setItem('mediaType', "tv");
                 } else {
                   localStorage.setItem('mediaType', "tv");
                 }
@@ -142,9 +142,9 @@ $(document).ready(function () {
 
     }]);
 
-    return getMovie;
+    return getTv;
   }();
 
-  var movieTrending = new getMovie(movieApi, 'movie-container', 'movie');
-  movieTrending.getItems();
+  var tvTrending = new getTv(tvApi, 'tv-container', 'tv');
+  tvTrending.getItems();
 });

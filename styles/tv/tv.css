@@ -1,7 +1,8 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   font-family: roboto;
 }
 
@@ -17,9 +18,15 @@ a {
 }
 
 .contain {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   height: 80px;
 }
 
@@ -36,6 +43,7 @@ img {
 header {
   background-color: #002342;
 }
+
 header a, header i {
   color: white;
 }
@@ -45,45 +53,59 @@ nav a + a {
 }
 
 #contain {
+  display: -ms-grid;
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  -ms-grid-columns: 1fr 2fr;
+      grid-template-columns: 1fr 2fr;
   gap: 10px;
   margin-top: 40px;
 }
 
 #genre-selection {
-  box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
+  -webkit-box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
+          box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
   padding: 10px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
 }
 
 #genre-selection > ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   gap: 10px;
 }
+
 #genre-selection > ul li {
   list-style: none;
 }
+
 #genre-selection > ul li button {
   border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 100px;
-  padding: 0.5rem 0.7rem;
+  padding: .5rem .7rem;
 }
 
-#movie-container {
+#tv-container {
+  display: -ms-grid;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  -ms-grid-columns: (1fr)[5];
+      grid-template-columns: repeat(5, 1fr);
   grid-gap: 20px;
 }
-#movie-container .item {
-  box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
+
+#tv-container .item {
+  -webkit-box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
+          box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
 }
 
 #more, #genre-search {
   width: 100%;
   font-size: 1.5rem;
-  padding: 0.7rem 0;
+  padding: .7rem 0;
   border-radius: 10px;
   background-color: #00B5E8;
   color: white;
@@ -97,3 +119,4 @@ nav a + a {
   background-color: #00B5E8;
   color: white;
 }
+/*# sourceMappingURL=tv.css.map */

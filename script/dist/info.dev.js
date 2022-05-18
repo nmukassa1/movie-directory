@@ -180,7 +180,7 @@ $('document').ready(function () {
       var name;
       var id;
       var posterPath;
-      var postAmount = 12;
+      var postAmount = 14;
 
       for (var i = 0; i < postAmount; i++) {
         if (mediaType === 'movie') {

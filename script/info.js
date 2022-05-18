@@ -226,7 +226,7 @@ $('document').ready(function(){
             let name;
             let id;
             let posterPath;
-            const postAmount = 12;
+            const postAmount = 14;
             for(let i = 0; i < postAmount; i++){
                 if(mediaType === 'movie'){
                     if(data.results.length === 0){

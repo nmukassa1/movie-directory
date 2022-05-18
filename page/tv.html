@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Favourites</title>
+    <title>Tv</title>
     <link rel="icon" href="../question-mark.png">
 
-    <link rel="stylesheet" href="../styles/favourites/favourites.css">
+    <link rel="stylesheet" href="../styles/tv/tv.css">
 
     <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,9 +17,10 @@
     <script src="https://kit.fontawesome.com/4fa6550637.js" crossorigin="anonymous"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 </head>
 <body>
-
+    
     <header class="">
         <div class="mx-auto contain">
             <div id="brand">
@@ -34,8 +35,18 @@
         </div>
     </header>
 
-    <div id="poster-container"></div>
+    <div id="contain" class="mx-auto">
+        <aside id="genre-selection">
+            <h1>Filter</h1>
+            <ul></ul>
+            <button id="genre-search">Search</button>
+        </aside>
+        <main>
+            <section id="tv-container"></section>
+            <button id="more">More+</button>
+        </main>
+    </div>
 
-    <script src="../script/favourites.js"></script>
+    <script src="../script/tv.js"></script>
 </body>
 </html>
