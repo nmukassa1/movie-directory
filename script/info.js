@@ -44,7 +44,7 @@ $('document').ready(function(){
     fetch(apiURL)
     .then(res => res.json())
     .then(item => {
-        console.log(item)
+        //console.log(item)
         
         $('#title').text(item.title || item.name)
 
@@ -113,7 +113,7 @@ $('document').ready(function(){
 
             //console.log(data)
             const baseURL = data.images.base_url;
-            const backdropSize = data.images.backdrop_sizes[1];
+            const backdropSize = data.images.backdrop_sizes[2];
             const backdropPath = item.backdrop_path;
             const uniqueURL =`${baseURL}${backdropSize}${backdropPath}`;
 
@@ -139,7 +139,7 @@ $('document').ready(function(){
             const link = `https://www.youtube.com/embed/${key}?autoplay=1`;
 
             $('iframe').attr('src', link)
-            console.log($('iframe'))
+            //console.log($('iframe'))
         })
     }
 
@@ -221,7 +221,7 @@ $('document').ready(function(){
         fetch(recommendationsURL)
         .then(res => res.json())
         .then(data => {
-            console.log(data)
+            //console.log(data)
 
             let name;
             let id;
@@ -251,13 +251,13 @@ $('document').ready(function(){
         fetch(imgApi)
         .then(res => res.json())
         .then(data => {
-            console.log(data)
+            //console.log(data)
             const baseURL = data.images.base_url;
             const posterSize = data.images.poster_sizes[1]
             
             function post(postAmount){
                 let uniqueURL =`${baseURL}${posterSize}${posterPath}`;
-                console.log(uniqueURL)
+                //console.log(uniqueURL)
 
                 let element = $(`
                     <a href="info.html" id="${id}"class="item ${mediaType}">

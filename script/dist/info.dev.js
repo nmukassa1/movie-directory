@@ -28,7 +28,7 @@ $('document').ready(function () {
   fetch(apiURL).then(function (res) {
     return res.json();
   }).then(function (item) {
-    console.log(item);
+    //console.log(item)
     $('#title').text(item.title || item.name);
     var releaseDateArr;
 
@@ -80,7 +80,7 @@ $('document').ready(function () {
     }).then(function (data) {
       //console.log(data)
       var baseURL = data.images.base_url;
-      var backdropSize = data.images.backdrop_sizes[1];
+      var backdropSize = data.images.backdrop_sizes[2];
       var backdropPath = item.backdrop_path;
       var uniqueURL = "".concat(baseURL).concat(backdropSize).concat(backdropPath);
       $('#hero-bg').css('background-image', "url(".concat(uniqueURL, ")"));
@@ -104,8 +104,7 @@ $('document').ready(function () {
       }
 
       var link = "https://www.youtube.com/embed/".concat(key, "?autoplay=1");
-      $('iframe').attr('src', link);
-      console.log($('iframe'));
+      $('iframe').attr('src', link); //console.log($('iframe'))
     });
   }
 
@@ -176,7 +175,7 @@ $('document').ready(function () {
     fetch(recommendationsURL).then(function (res) {
       return res.json();
     }).then(function (data) {
-      console.log(data);
+      //console.log(data)
       var name;
       var id;
       var posterPath;
@@ -206,13 +205,13 @@ $('document').ready(function () {
     fetch(imgApi).then(function (res) {
       return res.json();
     }).then(function (data) {
-      console.log(data);
+      //console.log(data)
       var baseURL = data.images.base_url;
       var posterSize = data.images.poster_sizes[1];
 
       function post(postAmount) {
-        var uniqueURL = "".concat(baseURL).concat(posterSize).concat(posterPath);
-        console.log(uniqueURL);
+        var uniqueURL = "".concat(baseURL).concat(posterSize).concat(posterPath); //console.log(uniqueURL)
+
         var element = $("\n                    <a href=\"info.html\" id=\"".concat(id, "\"class=\"item ").concat(mediaType, "\">\n                        <img class=\"overlay poster\" src=\"").concat(uniqueURL, "\">\n                    </a>\n                "));
         $('#recommendations__container').append(element);
       }

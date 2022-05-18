@@ -54,14 +54,6 @@ $(document).ready(function () {
       });
 
       function loadMoreTv(genreArr) {
-        //    $('#more').click(() => {
-        //         const genreJoined = genreArr.join(',');
-        //         pageNumber++
-        //         tvApi = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
-        //         console.log(pageNumber, tvApi)
-        //         const load = new getTv(tvApi, 'tv-container', 'tv')
-        //         load.getItems()
-        //     })
         $(window).scroll(function () {
           var scrollable = document.documentElement.scrollHeight - window.innerHeight;
           var scrolled = window.scrollY;
