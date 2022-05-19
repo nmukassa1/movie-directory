@@ -264,7 +264,7 @@ $('document').ready(function () {
       var key;
 
       for (var i = 0; i < data.results.length; i++) {
-        if (data.results[i].type === 'Trailer' && data.results[i].site === 'YouTube') {
+        if (data.results[i].type === 'Trailer' || 'Opening Credits' && data.results[i].site === 'YouTube') {
           key = data.results[i].key;
           break;
         } else {
@@ -288,5 +288,5 @@ $('document').ready(function () {
     $('#trailer').hide();
     $('body').css('overflow', 'initial');
     $('iframe').attr('src', '');
-  }); // trailer(videoURL)
+  }); //trailer(videoURL)
 });
