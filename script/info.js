@@ -347,6 +347,7 @@ $('document').ready(function(){
     $('#close-trailer-button').click(() =>{
         $('#trailer').hide()
         $('body').css('overflow', 'initial')
+        $('iframe').attr('src', '')
     })
 
     // trailer(videoURL)
