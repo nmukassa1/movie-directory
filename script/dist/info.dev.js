@@ -275,13 +275,17 @@ $('document').ready(function () {
       var link = "https://www.youtube.com/embed/".concat(key);
       document.querySelector('iframe').src = link;
       $('#trailer').css('display', 'grid');
+      $('body').css('overflow', 'hidden');
     });
-  }
+  } //Open trailer
+
 
   $('#trailer-button').click(function () {
     trailer(videoURL);
-  });
+  }); //Close trailer
+
   $('#close-trailer-button').click(function () {
     $('#trailer').hide();
+    $('body').css('overflow', 'initial');
   }); // trailer(videoURL)
 });

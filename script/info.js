@@ -333,15 +333,20 @@ $('document').ready(function(){
             document.querySelector('iframe').src = link;
 
             $('#trailer').css('display', 'grid')
+            $('body').css('overflow', 'hidden')
     
         })
     }
 
+    //Open trailer
     $('#trailer-button').click(() => {
         trailer(videoURL)
     })
+
+    //Close trailer
     $('#close-trailer-button').click(() =>{
         $('#trailer').hide()
+        $('body').css('overflow', 'initial')
     })
 
     // trailer(videoURL)
