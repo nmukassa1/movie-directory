@@ -238,4 +238,45 @@ nav a + a {
   -webkit-transform: scale(1.3);
           transform: scale(1.3);
 }
+
+#trailer {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: -ms-grid;
+  display: grid;
+  place-content: center;
+  display: none;
+}
+
+#trailer-contain {
+  width: 70vw;
+  height: 70vh;
+  display: -ms-grid;
+  display: grid;
+  place-content: center;
+}
+
+#iframe-container, iframe {
+  width: inherit;
+  height: inherit;
+}
+
+#exit {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: right;
+      -ms-flex-pack: right;
+          justify-content: right;
+  margin-bottom: 5px;
+}
+
+#exit button {
+  color: white;
+  font-size: 20px;
+}
 /*# sourceMappingURL=info.css.map */

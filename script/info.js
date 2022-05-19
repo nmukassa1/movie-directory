@@ -310,5 +310,41 @@ $('document').ready(function(){
             $('#favourites').addClass('favourites-animation')
         }
     })
+
+    //Trailer
+    function trailer(videoUrl) {
+        fetch(videoUrl)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            let key;
+            
+            for(let i = 0; i < data.results.length; i++){
+                if(data.results[i].type === 'Trailer' && data.results[i].site === 'YouTube'){
+                    key = data.results[i].key;
+                    break
+                } else {
+                    continue
+                    // key = data.results[i].key;
+                }
+            }
     
+            const link = `https://www.youtube.com/embed/${key}`;
+            document.querySelector('iframe').src = link;
+
+            $('#trailer').css('display', 'grid')
+    
+        })
+    }
+
+    $('#trailer-button').click(() => {
+        trailer(videoURL)
+    })
+    $('#close-trailer-button').click(() =>{
+        $('#trailer').hide()
+    })
+
+    // trailer(videoURL)
+    
+
 })

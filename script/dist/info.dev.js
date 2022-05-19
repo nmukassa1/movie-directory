@@ -254,5 +254,34 @@ $('document').ready(function () {
       $('#favourites').css('color', '#EB5353');
       $('#favourites').addClass('favourites-animation');
     }
+  }); //Trailer
+
+  function trailer(videoUrl) {
+    fetch(videoUrl).then(function (res) {
+      return res.json();
+    }).then(function (data) {
+      console.log(data);
+      var key;
+
+      for (var i = 0; i < data.results.length; i++) {
+        if (data.results[i].type === 'Trailer' && data.results[i].site === 'YouTube') {
+          key = data.results[i].key;
+          break;
+        } else {
+          continue; // key = data.results[i].key;
+        }
+      }
+
+      var link = "https://www.youtube.com/embed/".concat(key);
+      document.querySelector('iframe').src = link;
+      $('#trailer').css('display', 'grid');
+    });
+  }
+
+  $('#trailer-button').click(function () {
+    trailer(videoURL);
   });
+  $('#close-trailer-button').click(function () {
+    $('#trailer').hide();
+  }); // trailer(videoURL)
 });
