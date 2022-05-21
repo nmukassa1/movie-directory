@@ -61,8 +61,6 @@ $(document).ready(() =>{
                     //console.log(pageNumber, movieApi)
                     const load = new getTv(tvApi, 'tv-container', 'tv')
                     load.getItems()
-                } else{
-                    alert(`scrolled: ${scrolled}, scrollable: ${scrollable}`)
                 }
             }
         $(window).scroll(() => {
