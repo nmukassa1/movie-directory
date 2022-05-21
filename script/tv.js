@@ -50,19 +50,21 @@ $(document).ready(() =>{
             getTvByGenre.getItems()
            })
 
-           function onScroll(genreArr){
-            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-            const scrolled = Math.floor(window.scrollY);
-    
-            if(scrolled === scrollable){
-                const genreJoined = genreArr.join(',');
-                pageNumber++
-                tvApi = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
-                //console.log(pageNumber, movieApi)
-                const load = new getTv(tvApi, 'tv-container', 'tv')
-                load.getItems()
+            function onScroll(genreArr){
+                const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+                const scrolled = Math.floor(window.scrollY);
+        
+                if(scrolled === scrollable){
+                    const genreJoined = genreArr.join(',');
+                    pageNumber++
+                    tvApi = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
+                    //console.log(pageNumber, movieApi)
+                    const load = new getTv(tvApi, 'tv-container', 'tv')
+                    load.getItems()
+                } else{
+                    alert(`scrolled: ${scrolled}, scrollable: ${scrollable}`)
+                }
             }
-        }
         $(window).scroll(() => {
             onScroll(genreArr)
         })

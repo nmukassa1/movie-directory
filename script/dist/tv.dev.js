@@ -64,6 +64,8 @@ $(document).ready(function () {
 
           var load = new getTv(tvApi, 'tv-container', 'tv');
           load.getItems();
+        } else {
+          alert("scrolled: ".concat(scrolled, ", scrollable: ").concat(scrollable));
         }
       }
 
