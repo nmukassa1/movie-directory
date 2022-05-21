@@ -216,3 +216,7 @@ nav a + a {
   color: white;
   font-size: 20px;
 }
+
+#error {
+  display: none;
+}

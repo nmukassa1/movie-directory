@@ -53,7 +53,7 @@ $(document).ready(function () {
         getMovieByGenre.getItems();
       });
 
-      function loadMoreMovie(genreArr) {
+      function loadMoreMovieOnScroll(genreArr) {
         $(window).scroll(function () {
           var scrollable = document.documentElement.scrollHeight - window.innerHeight;
           var scrolled = window.scrollY;
@@ -69,7 +69,25 @@ $(document).ready(function () {
         });
       }
 
-      loadMoreMovie(genreArr);
+      loadMoreMovieOnScroll(genreArr);
+
+      function loadMoreMovieOnTouchMove(genreArr) {
+        $(window).touchmove(function () {
+          var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+          var scrolled = window.scrollY;
+
+          if (scrolled === scrollable) {
+            var genreJoined = genreArr.join(',');
+            pageNumber++;
+            movieApi = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(pageNumber, "&with_genres=").concat(genreJoined); //console.log(pageNumber, movieApi)
+
+            var load = new getMovie(movieApi, 'movie-container', 'movie');
+            load.getItems();
+          }
+        });
+      }
+
+      loadMoreMovieOnTouchMove(genreArr);
     });
   }
 
