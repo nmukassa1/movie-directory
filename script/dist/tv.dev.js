@@ -53,23 +53,26 @@ $(document).ready(function () {
         getTvByGenre.getItems();
       });
 
-      function loadMoreTv(genreArr) {
-        $(window).scroll(function () {
-          var scrollable = document.documentElement.scrollHeight - window.innerHeight;
-          var scrolled = window.scrollY;
+      function onScroll(genreArr) {
+        var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        var scrolled = Math.floor(window.scrollY);
 
-          if (scrolled === scrollable) {
-            var genreJoined = genreArr.join(',');
-            pageNumber++;
-            tvApi = "https://api.themoviedb.org/3/discover/tv?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(pageNumber, "&with_genres=").concat(genreJoined); //console.log(pageNumber, tvApi)
+        if (scrolled === scrollable) {
+          var genreJoined = genreArr.join(',');
+          pageNumber++;
+          tvApi = "https://api.themoviedb.org/3/discover/tv?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(pageNumber, "&with_genres=").concat(genreJoined); //console.log(pageNumber, movieApi)
 
-            var load = new getTv(tvApi, 'tv-container', 'tv');
-            load.getItems();
-          }
-        });
+          var load = new getTv(tvApi, 'tv-container', 'tv');
+          load.getItems();
+        }
       }
 
-      loadMoreTv(genreArr);
+      $(window).scroll(function () {
+        onScroll(genreArr);
+      });
+      $(window).on('touchmove', function () {
+        onScroll(genreArr);
+      });
     });
   }
 
