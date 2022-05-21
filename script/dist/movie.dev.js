@@ -53,41 +53,55 @@ $(document).ready(function () {
         getMovieByGenre.getItems();
       });
 
-      function loadMoreMovieOnScroll(genreArr) {
-        $(window).scroll(function () {
-          var scrollable = document.documentElement.scrollHeight - window.innerHeight;
-          var scrolled = window.scrollY;
+      function onScroll(genreArr) {
+        var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        var scrolled = window.scrollY;
 
-          if (scrolled === scrollable) {
-            var genreJoined = genreArr.join(',');
-            pageNumber++;
-            movieApi = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(pageNumber, "&with_genres=").concat(genreJoined); //console.log(pageNumber, movieApi)
+        if (scrolled === scrollable) {
+          var genreJoined = genreArr.join(',');
+          pageNumber++;
+          movieApi = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(pageNumber, "&with_genres=").concat(genreJoined); //console.log(pageNumber, movieApi)
 
-            var load = new getMovie(movieApi, 'movie-container', 'movie');
-            load.getItems();
-          }
-        });
+          var load = new getMovie(movieApi, 'movie-container', 'movie');
+          load.getItems();
+        }
       }
 
-      loadMoreMovieOnScroll(genreArr);
-
-      function loadMoreMovieOnTouchMove(genreArr) {
-        $(window).touchmove(function () {
-          var scrollable = document.documentElement.scrollHeight - window.innerHeight;
-          var scrolled = window.scrollY;
-
-          if (scrolled === scrollable) {
-            var genreJoined = genreArr.join(',');
-            pageNumber++;
-            movieApi = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(pageNumber, "&with_genres=").concat(genreJoined); //console.log(pageNumber, movieApi)
-
-            var load = new getMovie(movieApi, 'movie-container', 'movie');
-            load.getItems();
-          }
-        });
-      }
-
-      loadMoreMovieOnTouchMove(genreArr);
+      $(window).scroll(function () {
+        onScroll(genreArr);
+      });
+      $(document.body).touchmove(function () {
+        onScroll(genreArr);
+      }); //        function loadMoreMovieOnScroll(genreArr){
+      //             $(window).scroll(() => {
+      //                 const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      //                 const scrolled = window.scrollY;
+      //                 if(scrolled === scrollable){
+      //                     const genreJoined = genreArr.join(',');
+      //                     pageNumber++
+      //                     movieApi = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
+      //                     //console.log(pageNumber, movieApi)
+      //                     const load = new getMovie(movieApi, 'movie-container', 'movie')
+      //                     load.getItems()
+      //                 }
+      //         })
+      //        }
+      //        loadMoreMovieOnScroll(genreArr)
+      //        function loadMoreMovieOnTouchMove(genreArr){
+      //         $(window).touchmove(() => {
+      //             const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      //             const scrolled = window.scrollY;
+      //             if(scrolled === scrollable){
+      //                 const genreJoined = genreArr.join(',');
+      //                 pageNumber++
+      //                 movieApi = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
+      //                 //console.log(pageNumber, movieApi)
+      //                 const load = new getMovie(movieApi, 'movie-container', 'movie')
+      //                 load.getItems()
+      //             }
+      //     })
+      //    }
+      //    loadMoreMovieOnTouchMove(genreArr)
     });
   }
 
