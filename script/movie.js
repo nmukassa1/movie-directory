@@ -52,7 +52,7 @@ $(document).ready(() =>{
 
             function onScroll(genreArr){
                 const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-                const scrolled = window.scrollY;
+                const scrolled = Math.floor(window.scrollY);
         
                 if(scrolled === scrollable){
                     const genreJoined = genreArr.join(',');
@@ -66,7 +66,7 @@ $(document).ready(() =>{
             $(window).scroll(() => {
                 onScroll(genreArr)
             })
-            $(document).on('touchmove', () =>{
+            $(window).on('touchmove', () =>{
                 onScroll(genreArr)
             })
 

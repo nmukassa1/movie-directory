@@ -55,7 +55,7 @@ $(document).ready(function () {
 
       function onScroll(genreArr) {
         var scrollable = document.documentElement.scrollHeight - window.innerHeight;
-        var scrolled = window.scrollY;
+        var scrolled = Math.floor(window.scrollY);
 
         if (scrolled === scrollable) {
           var genreJoined = genreArr.join(',');
@@ -70,7 +70,7 @@ $(document).ready(function () {
       $(window).scroll(function () {
         onScroll(genreArr);
       });
-      $(document).on('touchmove', function () {
+      $(window).on('touchmove', function () {
         onScroll(genreArr);
       }); //        function loadMoreMovieOnScroll(genreArr){
       //             $(window).scroll(() => {
