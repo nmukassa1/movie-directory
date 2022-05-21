@@ -66,7 +66,7 @@ $(document).ready(() =>{
             $(window).scroll(() => {
                 onScroll(genreArr)
             })
-            $(document.body).touchmove(() => {
+            $(document.body).on('touchmove', () =>{
                 onScroll(genreArr)
             })
 

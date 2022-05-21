@@ -70,7 +70,7 @@ $(document).ready(function () {
       $(window).scroll(function () {
         onScroll(genreArr);
       });
-      $(document.body).touchmove(function () {
+      $(document.body).on('touchmove', function () {
         onScroll(genreArr);
       }); //        function loadMoreMovieOnScroll(genreArr){
       //             $(window).scroll(() => {
