@@ -59,6 +59,13 @@ nav a + a {
       grid-template-columns: 1fr 2fr;
   gap: 10px;
   margin-top: 40px;
+  position: relative;
+}
+
+@media (max-width: 414px) {
+  #contain {
+    display: initial;
+  }
 }
 
 #genre-selection {
@@ -68,9 +75,23 @@ nav a + a {
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 10px;
+  background: white;
 }
 
-#genre-selection > ul {
+@media (max-width: 414px) {
+  #genre-selection {
+    top: 0;
+  }
+}
+
+.filter-section {
+  display: none;
+}
+
+.filter-section > ul {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -79,11 +100,11 @@ nav a + a {
   gap: 10px;
 }
 
-#genre-selection > ul li {
+.filter-section > ul li {
   list-style: none;
 }
 
-#genre-selection > ul li button {
+.filter-section > ul li button {
   border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 100px;
   padding: .5rem .7rem;
@@ -97,9 +118,24 @@ nav a + a {
   grid-gap: 20px;
 }
 
+@media (max-width: 414px) {
+  #tv-container {
+    -ms-grid-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+    width: 90%;
+    margin: auto;
+  }
+}
+
 #tv-container .item {
   -webkit-box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
           box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1);
+}
+
+@media (max-width: 414px) {
+  #tv-container .item img {
+    width: 100%;
+  }
 }
 
 #genre-search {
@@ -118,5 +154,29 @@ nav a + a {
 .genre-list-toggle {
   background-color: #00B5E8;
   color: white;
+}
+
+#filter-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+}
+
+.filter-section-arrow {
+  font-size: 1.1rem;
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.filter-section-arrow__toggle {
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
 }
 /*# sourceMappingURL=tv.css.map */

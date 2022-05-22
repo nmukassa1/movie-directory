@@ -15,7 +15,7 @@ $(document).ready(() =>{
         .then(res => res.json())
         .then(data => {
             console.log(data.genres)
-            const ul = $(`#genre-selection > ul`);
+            const ul = $(`.filter-section > ul`);
             for(let i = 0; i < data.genres.length; i++){
                 const item = document.createElement('li');
                 item.innerHTML = `
@@ -47,6 +47,8 @@ $(document).ready(() =>{
             tvApi = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=1&with_genres=${genreJoined}`;
             const getTvByGenre = new getTv(tvApi, 'tv-container', 'tv');
             $('#tv-container').html('')
+            $('.filter-section').hide()
+            $('.filter-section-arrow').removeClass('filter-section-arrow__toggle')
             getTvByGenre.getItems()
            })
 
@@ -63,16 +65,20 @@ $(document).ready(() =>{
                     load.getItems()
                 }
             }
-        $(window).scroll(() => {
-            onScroll(genreArr)
-        })
-        $(window).on('touchmove', () =>{
-            onScroll(genreArr)
-        })
+            $(window).scroll(() => {
+                onScroll(genreArr)
+            })
+            $(window).on('touchmove', () =>{
+                onScroll(genreArr)
+            })
         })
     }
 
     genreList()
+    $('#filter-button').click(() =>{
+        $('.filter-section').toggle()
+        $('.filter-section-arrow').toggleClass('filter-section-arrow__toggle')
+    })
     
 
     class getTv {

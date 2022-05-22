@@ -16,13 +16,20 @@
     height: fit-content
     position: sticky
     top: 10px
+    background: white
+    @media (max-width: 414px)
+        top: 0
+
+.filter-section
+    display: none
 
 
 
-#genre-selection > ul
+.filter-section > ul
     display: flex
     flex-wrap: wrap
     gap: 10px
+    margin-top: 20px
 
     li
         list-style: none
@@ -37,9 +44,16 @@
     grid-gap: 20px
     @media (max-width: 414px)
         grid-template-columns: 1fr 1fr
+        width: 90%
+        margin: auto
 
     .item
         box-shadow: 0 2px 6px rgba(75, 53, 53, 0.1)
+        
+        img
+            @media (max-width: 414px)
+                width: 100%
+        
 
 #genre-search
     width: 100%
@@ -56,3 +70,16 @@
 .genre-list-toggle
     background-color: #00B5E8
     color: white
+
+#filter-button
+    display: flex
+    justify-content: space-between
+    align-items: center
+    width: 100%
+
+.filter-section-arrow
+    font-size: 1.1rem
+    transform: rotate(90deg)
+
+.filter-section-arrow__toggle
+    transform: rotate(0deg)

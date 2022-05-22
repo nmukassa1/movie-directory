@@ -20,7 +20,7 @@ $(document).ready(function () {
       return res.json();
     }).then(function (data) {
       console.log(data.genres);
-      var ul = $("#genre-selection > ul");
+      var ul = $(".filter-section > ul");
 
       for (var i = 0; i < data.genres.length; i++) {
         var item = document.createElement('li');
@@ -50,6 +50,8 @@ $(document).ready(function () {
         tvApi = "https://api.themoviedb.org/3/discover/tv?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=1&with_genres=").concat(genreJoined);
         var getTvByGenre = new getTv(tvApi, 'tv-container', 'tv');
         $('#tv-container').html('');
+        $('.filter-section').hide();
+        $('.filter-section-arrow').removeClass('filter-section-arrow__toggle');
         getTvByGenre.getItems();
       });
 
@@ -77,6 +79,10 @@ $(document).ready(function () {
   }
 
   genreList();
+  $('#filter-button').click(function () {
+    $('.filter-section').toggle();
+    $('.filter-section-arrow').toggleClass('filter-section-arrow__toggle');
+  });
 
   var getTv =
   /*#__PURE__*/

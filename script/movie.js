@@ -15,7 +15,7 @@ $(document).ready(() =>{
         .then(res => res.json())
         .then(data => {
             console.log(data.genres)
-            const ul = $(`#genre-selection > ul`);
+            const ul = $(`.filter-section > ul`);
             for(let i = 0; i < data.genres.length; i++){
                 const item = document.createElement('li');
                 item.innerHTML = `
@@ -47,6 +47,8 @@ $(document).ready(() =>{
             movieApi = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=1&with_genres=${genreJoined}`;
             const getMovieByGenre = new getMovie(movieApi, 'movie-container', 'movie');
             $('#movie-container').html('')
+            $('.filter-section').hide()
+            $('.filter-section-arrow').removeClass('filter-section-arrow__toggle')
             getMovieByGenre.getItems()
            })
 
@@ -69,44 +71,14 @@ $(document).ready(() =>{
             $(window).on('touchmove', () =>{
                 onScroll(genreArr)
             })
-
-    //        function loadMoreMovieOnScroll(genreArr){
-    //             $(window).scroll(() => {
-    //                 const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-    //                 const scrolled = window.scrollY;
-            
-    //                 if(scrolled === scrollable){
-    //                     const genreJoined = genreArr.join(',');
-    //                     pageNumber++
-    //                     movieApi = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
-    //                     //console.log(pageNumber, movieApi)
-    //                     const load = new getMovie(movieApi, 'movie-container', 'movie')
-    //                     load.getItems()
-    //                 }
-    //         })
-    //        }
-    //        loadMoreMovieOnScroll(genreArr)
-
-    //        function loadMoreMovieOnTouchMove(genreArr){
-    //         $(window).touchmove(() => {
-    //             const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-    //             const scrolled = window.scrollY;
-        
-    //             if(scrolled === scrollable){
-    //                 const genreJoined = genreArr.join(',');
-    //                 pageNumber++
-    //                 movieApi = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=${pageNumber}&with_genres=${genreJoined}`
-    //                 //console.log(pageNumber, movieApi)
-    //                 const load = new getMovie(movieApi, 'movie-container', 'movie')
-    //                 load.getItems()
-    //             }
-    //     })
-    //    }
-    //    loadMoreMovieOnTouchMove(genreArr)
         })
     }
 
     genreList()
+    $('#filter-button').click(() =>{
+        $('.filter-section').toggle()
+        $('.filter-section-arrow').toggleClass('filter-section-arrow__toggle')
+    })
     
 
     class getMovie {
