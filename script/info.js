@@ -147,7 +147,7 @@ $('document').ready(function(){
         fetch(castCrewUrl)
         .then(res => res.json())
         .then(data => {
-           // console.log(data, placement, 'castCrewList')
+           console.log(data, placement, 'castCrewList')
 
 
             let profileName;
@@ -158,7 +158,15 @@ $('document').ready(function(){
                 //If the crew length is 0 = Directors doesn't exist
                 if(data.crew.length === 0){
                     profileName = 'No Directors'
-                    $(`#${placement}-list`).append(profileName)
+                    //$(`#${placement}-list`).append(profileName)
+                    $(`#${placement}-list`).append(`
+                    <div class="profile">
+                        <div class="img-container">
+                        <i class="fa-solid fa-user"></i>
+                        </div>
+                    </div>
+                    `)
+                    
                     //alert('hh')
                 } else{
                     for(let i = 0; i < data.crew.length; i++){
@@ -166,7 +174,14 @@ $('document').ready(function(){
                         if(data.crew[i].job != 'Director'){
                             if(i === data.crew.length - 1){
                                 //Having looped thru every item and director still doesn't exist, do this v
-                                $(`#${placement}-list`).append('No Directors')
+                               // $(`#${placement}-list`).append('No Directors')
+                               $(`#${placement}-list`).append(`
+                    <div class="profile">
+                        <div class="img-container">
+                        <i class="fa-solid fa-user"></i>
+                        </div>
+                    </div>
+                    `)
                             } else{
                                 //Continue iteration
                                 continue
@@ -182,7 +197,7 @@ $('document').ready(function(){
                 }
             } else{
                 appendTo = placement;
-                for(let i = 0; i < 5; i++){
+                for(let i = 0; i < 7; i++){
                     profileName = data.cast[i].name;
                     profileId = data.cast[i].id;
                     personImg(appendTo, data, profileId, profileName)
@@ -210,9 +225,15 @@ $('document').ready(function(){
                 `)
 
                 $(`#${data.id}-img`).css('background-image', `url(https://image.tmdb.org/t/p/w185${data.profiles[0].file_path})`)
-            } else{
-                $(`#${appendTo}-list`).append('No image was found')
-            }
+            } //else{
+                // $(`#${appendTo}-list`).append(`
+                // <div class="profile">
+                //     <div class="img-container">
+                //         <i class="fa-solid fa-user"></i>
+                //     </div>
+                // </div>
+              //  `)
+            //}
 
         })
     }
