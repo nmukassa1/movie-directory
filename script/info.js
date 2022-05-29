@@ -132,6 +132,9 @@ $('document').ready(function(){
                 if(data.results[i].site === `YouTube` && data.results[i].type === `Trailer`){
                     key = data.results[i].key;
                     break
+                } else if(data.results[i].site !== `YouTube` && data.results[i].type !== `Trailer`){
+                    alert(`Trainer doesn't exist`)
+                    break
                 } else{
                     continue
                 }

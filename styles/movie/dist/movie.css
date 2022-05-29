@@ -158,4 +158,8 @@ nav a + a {
   #contain {
     display: block;
   }
+
+  #movie-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
