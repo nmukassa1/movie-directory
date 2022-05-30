@@ -41,8 +41,23 @@ img {
   width: 100%;
 }
 
+nav {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[4];
+      grid-template-columns: repeat(4, 1fr);
+  background: grey;
+  height: 80px;
+}
+
 header {
   background-color: #002342;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 999;
 }
 
 header a, header i {

@@ -1,0 +1,15 @@
+header {
+  background-color: #002342;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 999;
+}
+header a, header i {
+  color: white;
+}
+
+nav a + a {
+  margin-left: 30px;
+}
