@@ -86,4 +86,15 @@ nav a + a {
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
 }
+
+@media (max-width: 414px) {
+  nav {
+    display: -ms-grid;
+    display: grid;
+  }
+  .directory, nav {
+    -ms-grid-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+  }
+}
 /*# sourceMappingURL=styles.css.map */

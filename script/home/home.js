@@ -13,10 +13,10 @@ $(document).ready(function(){
     const getData = async (url, appendTo, mediaType) =>{
         const startPoint = await fetch(url);   
         //HANDLE 404 ERRORS
-        if(startPoint.status === 404) throw `Page doesn't exist`
+       // if(startPoint.status === 404) throw `Page doesn't exist`
 
         const data = await startPoint.json();
-        console.log(data)
+        //console.log(data)
 
         //APPEND MOVIE / TV POSTER
         for(let i = 0; i < data.results.length; i++){
@@ -43,6 +43,7 @@ $(document).ready(function(){
             
     }
 
+    //TRY CATCH FUNCTION
     async function get(url, appendTo, mediaType){
         try{
             await getData(url, appendTo, mediaType)
@@ -74,9 +75,26 @@ $(document).ready(function(){
     localStorage.setItem('mediaType', 'movie')
 
                  
-    $('#movie-btn').click(() => {
-        $('main').empty()
+    $('nav button').click((e) => {
+        //WHAT BUTTON AM I CLICKING ON?
+        const buttonType = e.target.id;
+        
+        if(buttonType === 'movie') return loadMedia(movieUrl, '.directory', 'movie')
+        if(buttonType === 'tv') return loadMedia(tvUrl, '.directory', 'tv')
     })
+
+    const loadMedia = (url, appendTo, mediaType) =>{
+        //EMPTY DIRECTORY
+        $('.directory').empty();
+        // page = 1
+
+        // if(mediaType === 'movie') movieUrl = `https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}&page=${page}`;
+
+        // if(mediaType === 'tv') tvUrl = `https://api.themoviedb.org/3/trending/tv/day?api_key=${apiKey}&page=${page}`
+        //UPDATE DIRECTORY
+        get(url, appendTo, mediaType)
+        localStorage.setItem('mediaType', mediaType)
+    }
                 
    
     const loadMoreItems = () =>{
@@ -94,7 +112,7 @@ $(document).ready(function(){
             } else{
                 url = `https://api.themoviedb.org/3/trending/tv/day?api_key=${apiKey}&page=${page}`;
             }
-            get(url, '.directory', 'movie')
+            get(url, '.directory', media)
         }
     }
     $(window).scroll(loadMoreItems)

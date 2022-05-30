@@ -21,41 +21,30 @@ $(document).ready(function () {
 
           case 2:
             startPoint = _context.sent;
-
-            if (!(startPoint.status === 404)) {
-              _context.next = 5;
-              break;
-            }
-
-            throw "Page doesn't exist";
-
-          case 5:
-            _context.next = 7;
+            _context.next = 5;
             return regeneratorRuntime.awrap(startPoint.json());
 
-          case 7:
+          case 5:
             data = _context.sent;
-            console.log(data); //APPEND MOVIE / TV POSTER
-
             i = 0;
 
-          case 10:
+          case 7:
             if (!(i < data.results.length)) {
-              _context.next = 25;
+              _context.next = 22;
               break;
             }
 
             posterPath = data.results[i].poster_path; //Fecth img base-url & img-size
 
-            _context.next = 14;
+            _context.next = 11;
             return regeneratorRuntime.awrap(fetch(imgApi));
 
-          case 14:
+          case 11:
             fetchImgData = _context.sent;
-            _context.next = 17;
+            _context.next = 14;
             return regeneratorRuntime.awrap(fetchImgData.json());
 
-          case 17:
+          case 14:
             imgData = _context.sent;
             baseUrl = imgData.images.base_url;
             backdropSize = imgData.images.poster_sizes[4];
@@ -63,22 +52,23 @@ $(document).ready(function () {
 
             $(appendTo).append("\n                <a class=\"poster ".concat(mediaType, "\" id=\"").concat(data.results[i].id, "\" href=\"page/info.html\"><img src=\"").concat(imgSrcLink, "\"/></a>\n            "));
 
-          case 22:
+          case 19:
             i++;
-            _context.next = 10;
+            _context.next = 7;
             break;
 
-          case 25:
-            _context.next = 27;
+          case 22:
+            _context.next = 24;
             return regeneratorRuntime.awrap(openItemModal());
 
-          case 27:
+          case 24:
           case "end":
             return _context.stop();
         }
       }
     });
-  };
+  }; //TRY CATCH FUNCTION
+
 
   function get(url, appendTo, mediaType) {
     return regeneratorRuntime.async(function get$(_context2) {
@@ -127,9 +117,23 @@ $(document).ready(function () {
 
   get(movieUrl, '.directory', 'movie');
   localStorage.setItem('mediaType', 'movie');
-  $('#movie-btn').click(function () {
-    $('main').empty();
+  $('nav button').click(function (e) {
+    //WHAT BUTTON AM I CLICKING ON?
+    var buttonType = e.target.id;
+    if (buttonType === 'movie') return loadMedia(movieUrl, '.directory', 'movie');
+    if (buttonType === 'tv') return loadMedia(tvUrl, '.directory', 'tv');
   });
+
+  var loadMedia = function loadMedia(url, appendTo, mediaType) {
+    //EMPTY DIRECTORY
+    $('.directory').empty(); // page = 1
+    // if(mediaType === 'movie') movieUrl = `https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}&page=${page}`;
+    // if(mediaType === 'tv') tvUrl = `https://api.themoviedb.org/3/trending/tv/day?api_key=${apiKey}&page=${page}`
+    //UPDATE DIRECTORY
+
+    get(url, appendTo, mediaType);
+    localStorage.setItem('mediaType', mediaType);
+  };
 
   var loadMoreItems = function loadMoreItems() {
     var scrollable = document.documentElement.scrollHeight - window.innerHeight;
@@ -146,7 +150,7 @@ $(document).ready(function () {
         url = "https://api.themoviedb.org/3/trending/tv/day?api_key=".concat(apiKey, "&page=").concat(page);
       }
 
-      get(url, '.directory', 'movie');
+      get(url, '.directory', media);
     }
   };
 
