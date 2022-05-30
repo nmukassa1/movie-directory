@@ -92,14 +92,13 @@ $(document).ready(function(){
     const movieTrending = new Get(trendingMovieApi, 'trending-movie-container', 'movie');
     movieTrending.getItems()
 
-    const moviePopularContainer = new Get(popularMoviesApi, 'popular-movie-container', 'movie');
-    moviePopularContainer.getItems()
+    
+    
 
     const tvContainer = new Get(trendingTvApi, 'trending-tv-container', 'tv');
-    tvContainer.getItems()
+    //tvContainer.getItems()
 
-    const tvPopularContainer = new Get(popularTvApi, 'popular-tv-container', 'tv');
-    tvPopularContainer.getItems()
+    
 
 
 

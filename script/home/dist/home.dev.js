@@ -96,10 +96,5 @@ $(document).ready(function () {
 
   var movieTrending = new Get(trendingMovieApi, 'trending-movie-container', 'movie');
   movieTrending.getItems();
-  var moviePopularContainer = new Get(popularMoviesApi, 'popular-movie-container', 'movie');
-  moviePopularContainer.getItems();
-  var tvContainer = new Get(trendingTvApi, 'trending-tv-container', 'tv');
-  tvContainer.getItems();
-  var tvPopularContainer = new Get(popularTvApi, 'popular-tv-container', 'tv');
-  tvPopularContainer.getItems();
+  var tvContainer = new Get(trendingTvApi, 'trending-tv-container', 'tv'); //tvContainer.getItems()
 }); //END
