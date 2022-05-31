@@ -190,7 +190,7 @@ $(document).ready(function(){
         const backdropSize = imgData.images.poster_sizes[4];
 
         const imgSrcLink = baseUrl + backdropSize + posterPath;
-        console.log(imgSrcLink)
+        //console.log(imgSrcLink)
 
         $('.directory').append(`
             <a class="poster ${mediaType}" id="${id}" href="page/info.html"><img src="${imgSrcLink}"/></a>
@@ -225,7 +225,10 @@ $(document).ready(function(){
             `;
             genreContainer.append(li)
         })
-        //console.log(genreData)
+        
+        //UPDATE DIRECTORY FUNCTION WITH GENRE SEARCH
+        
+        selectGnere()
     }
 
     function toggle(){
@@ -233,4 +236,33 @@ $(document).ready(function(){
     }
     getGenreList()
 
+    function selectGnere(){
+        let genreArr = [];
+        const genreBtn = document.querySelectorAll('.genre-item');
+        genreBtn.forEach(item => {
+            item.addEventListener('click', () =>{
+                if(item.classList.contains('genre-button-toggle')){
+                    item.classList.remove('genre-button-toggle')
+                    const genreIndex = genreArr.indexOf(item.id)
+                    genreArr.splice(genreIndex, 1)
+                    console.log(genreArr)
+                } else{
+                item.classList.add('genre-button-toggle')
+                genreArr.push(item.id)
+                console.log(genreArr)
+                }
+            })
+        })
+
+        //SEARCH GENRE
+        const searchGenreButton = $('#genre-search');
+        searchGenreButton.click(() =>{
+            const genreStr = genreArr.join(',')
+            const genreUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-UK&sort_by=popularity.desc&include_adult=true&page=1&with_genres=${genreStr}`;
+
+
+            $('.directory').empty()
+            get(genreUrl, '.directory', 'movie')
+        })
+    }
 })

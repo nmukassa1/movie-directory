@@ -234,15 +234,15 @@ $(document).ready(function () {
             imgData = _context3.sent;
             baseUrl = imgData.images.base_url;
             backdropSize = imgData.images.poster_sizes[4];
-            imgSrcLink = baseUrl + backdropSize + posterPath;
-            console.log(imgSrcLink);
+            imgSrcLink = baseUrl + backdropSize + posterPath; //console.log(imgSrcLink)
+
             $('.directory').append("\n            <a class=\"poster ".concat(mediaType, "\" id=\"").concat(id, "\" href=\"page/info.html\"><img src=\"").concat(imgSrcLink, "\"/></a>\n        ")); //RETRIVE POSTER ID SO I CAN OPEN CORRECT
             //INFO ON NEW PAGE
 
-            _context3.next = 23;
+            _context3.next = 22;
             return regeneratorRuntime.awrap(openItemModal());
 
-          case 23:
+          case 22:
           case "end":
             return _context3.stop();
         }
@@ -274,9 +274,11 @@ $(document).ready(function () {
               var li = document.createElement('li');
               li.innerHTML = "\n                <button class=\"genre-item\" id=".concat(item.id, ">").concat(item.name, "</button>\n            ");
               genreContainer.append(li);
-            }); //console.log(genreData)
+            }); //UPDATE DIRECTORY FUNCTION WITH GENRE SEARCH
 
-          case 10:
+            selectGnere();
+
+          case 11:
           case "end":
             return _context4.stop();
         }
@@ -289,4 +291,31 @@ $(document).ready(function () {
   }
 
   getGenreList();
+
+  function selectGnere() {
+    var genreArr = [];
+    var genreBtn = document.querySelectorAll('.genre-item');
+    genreBtn.forEach(function (item) {
+      item.addEventListener('click', function () {
+        if (item.classList.contains('genre-button-toggle')) {
+          item.classList.remove('genre-button-toggle');
+          var genreIndex = genreArr.indexOf(item.id);
+          genreArr.splice(genreIndex, 1);
+          console.log(genreArr);
+        } else {
+          item.classList.add('genre-button-toggle');
+          genreArr.push(item.id);
+          console.log(genreArr);
+        }
+      });
+    }); //SEARCH GENRE
+
+    var searchGenreButton = $('#genre-search');
+    searchGenreButton.click(function () {
+      var genreStr = genreArr.join(',');
+      var genreUrl = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=1&with_genres=").concat(genreStr);
+      $('.directory').empty();
+      get(genreUrl, '.directory', 'movie');
+    });
+  }
 });
