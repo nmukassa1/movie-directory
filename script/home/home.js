@@ -48,7 +48,7 @@ $(document).ready(function(){
         try{
             await getData(url, appendTo, mediaType)
         } catch (e){
-            alert(e)
+            console.log(e)
         }
     }
 
@@ -78,9 +78,11 @@ $(document).ready(function(){
     $('nav button').click((e) => {
         //WHAT BUTTON AM I CLICKING ON?
         const buttonType = e.target.id;
-        
+
         if(buttonType === 'movie') return loadMedia(movieUrl, '.directory', 'movie')
         if(buttonType === 'tv') return loadMedia(tvUrl, '.directory', 'tv')
+        if(buttonType === 'watchlist') return watchlist()
+        if(buttonType === 'filter') return console.log('filter')
     })
 
     const loadMedia = (url, appendTo, mediaType) =>{
@@ -121,8 +123,105 @@ $(document).ready(function(){
     })
 
     
-    
 
+
+
+
+    //FUNCTION TO APPEND FAVOURITES
+    function watchlist(){
+        $('.directory').empty();
+        
+        //Obkect to hold localstorage 
+        const obj = {...localStorage};
+
+        //Delete items i don't need
+        delete obj.id
+        delete obj.mediaType
+
+        //Arry holding id values, so I can use to find out how long loop should last
+        //& split tv and movie id
+        const arr = Object.keys(obj)
+        
+        //REVERSE ARRAY SO I CAN SORT BY RECENT ADDED
+        arr.reverse()
+
+        if(arr.length === 0) {
+            // $('.directory').css('grid-template-columns', '1fr');
+            $('.directory').append(`
+                <h1>You have nothing in your watch list. Why not add something?</h1>
+            `)
+        }
+
+        let watchlistUrl;
+        //let mediaType;
+        for(let i = 0; i < arr.length; i++){
+            ridMediaType(arr, i)
+        }
+
+
+    }
+
+    
+    // const obj = {...localStorage};
+
+    // delete obj.id
+    // delete obj.mediaType
+
+    // const arr = Object.keys(obj)
+    // arr.reverse()
+
+    // if(arr === null) return
+
+    // let watchlistUrl;
+    const ridMediaType = async (array, i) =>{
+        let mediaType;
+        const cutFrom = array[i].indexOf('-') + 1;
+        const id = array[i].slice(cutFrom, array[i].length);
+        //console.log(arr)
+
+        if(array[i].includes('movie')){
+            watchlistUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-UK`
+
+            mediaType = 'movie'
+        } else{
+            watchlistUrl = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-UK`
+
+            mediaType = 'tv'
+        }  
+
+        const getPosterPath = await fetch(watchlistUrl);
+        const res = await getPosterPath.json();
+        const posterPath = res.poster_path;
+
+        //Fecth img base-url & img-size
+        const fetchImgData = await fetch(imgApi);
+        const imgData = await fetchImgData.json();
+
+        const baseUrl = imgData.images.base_url;
+        const backdropSize = imgData.images.poster_sizes[4];
+
+        const imgSrcLink = baseUrl + backdropSize + posterPath;
+        console.log(imgSrcLink)
+
+        $('.directory').append(`
+            <a class="poster ${mediaType}" id="${id}" href="page/info.html"><img src="${imgSrcLink}"/></a>
+        `)
+
+        //RETRIVE POSTER ID SO I CAN OPEN CORRECT
+        //INFO ON NEW PAGE
+        await openItemModal()
+
+        //console.log(posterPath)
+
+    }
+    
+    // let x = ['movie-1234', 'tv-1234']
+    // let f = ['movie-1234', 'tv-1234']
+    // let a = x[0].indexOf('-') + 1
+    // let b = x[1].indexOf('-') + 1
+    // ridMediaType(arr, 1)
+    // ridMediaType(arr, 0)
+    // //ridMediaType(x, 1)
     
 
 })

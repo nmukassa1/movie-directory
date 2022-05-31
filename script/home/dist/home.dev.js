@@ -1,5 +1,11 @@
 "use strict";
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 $(document).ready(function () {
   //FETCH API
   var year = new Date().getFullYear();
@@ -86,7 +92,7 @@ $(document).ready(function () {
           case 5:
             _context2.prev = 5;
             _context2.t0 = _context2["catch"](0);
-            alert(_context2.t0);
+            console.log(_context2.t0);
 
           case 8:
           case "end":
@@ -122,6 +128,8 @@ $(document).ready(function () {
     var buttonType = e.target.id;
     if (buttonType === 'movie') return loadMedia(movieUrl, '.directory', 'movie');
     if (buttonType === 'tv') return loadMedia(tvUrl, '.directory', 'tv');
+    if (buttonType === 'watchlist') return watchlist();
+    if (buttonType === 'filter') return console.log('filter');
   });
 
   var loadMedia = function loadMedia(url, appendTo, mediaType) {
@@ -157,5 +165,102 @@ $(document).ready(function () {
   $(window).scroll(loadMoreItems);
   $(window).on('touchmove', function () {
     loadMoreItems();
-  });
+  }); //FUNCTION TO APPEND FAVOURITES
+
+  function watchlist() {
+    $('.directory').empty(); //Obkect to hold localstorage 
+
+    var obj = _objectSpread({}, localStorage); //Delete items i don't need
+
+
+    delete obj.id;
+    delete obj.mediaType; //Arry holding id values, so I can use to find out how long loop should last
+    //& split tv and movie id
+
+    var arr = Object.keys(obj); //REVERSE ARRAY SO I CAN SORT BY RECENT ADDED
+
+    arr.reverse();
+
+    if (arr.length === 0) {
+      // $('.directory').css('grid-template-columns', '1fr');
+      $('.directory').append("\n                <h1>You have nothing in your watch list. Why not add something?</h1>\n            ");
+    }
+
+    var watchlistUrl; //let mediaType;
+
+    for (var i = 0; i < arr.length; i++) {
+      ridMediaType(arr, i);
+    }
+  } // const obj = {...localStorage};
+  // delete obj.id
+  // delete obj.mediaType
+  // const arr = Object.keys(obj)
+  // arr.reverse()
+  // if(arr === null) return
+  // let watchlistUrl;
+
+
+  var ridMediaType = function ridMediaType(array, i) {
+    var mediaType, cutFrom, id, getPosterPath, res, posterPath, fetchImgData, imgData, baseUrl, backdropSize, imgSrcLink;
+    return regeneratorRuntime.async(function ridMediaType$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            cutFrom = array[i].indexOf('-') + 1;
+            id = array[i].slice(cutFrom, array[i].length); //console.log(arr)
+
+            if (array[i].includes('movie')) {
+              watchlistUrl = "https://api.themoviedb.org/3/movie/".concat(id, "?api_key=").concat(apiKey, "&language=en-UK");
+              mediaType = 'movie';
+            } else {
+              watchlistUrl = "https://api.themoviedb.org/3/tv/".concat(id, "?api_key=").concat(apiKey, "&language=en-UK");
+              mediaType = 'tv';
+            }
+
+            _context3.next = 5;
+            return regeneratorRuntime.awrap(fetch(watchlistUrl));
+
+          case 5:
+            getPosterPath = _context3.sent;
+            _context3.next = 8;
+            return regeneratorRuntime.awrap(getPosterPath.json());
+
+          case 8:
+            res = _context3.sent;
+            posterPath = res.poster_path; //Fecth img base-url & img-size
+
+            _context3.next = 12;
+            return regeneratorRuntime.awrap(fetch(imgApi));
+
+          case 12:
+            fetchImgData = _context3.sent;
+            _context3.next = 15;
+            return regeneratorRuntime.awrap(fetchImgData.json());
+
+          case 15:
+            imgData = _context3.sent;
+            baseUrl = imgData.images.base_url;
+            backdropSize = imgData.images.poster_sizes[4];
+            imgSrcLink = baseUrl + backdropSize + posterPath;
+            console.log(imgSrcLink);
+            $('.directory').append("\n            <a class=\"poster ".concat(mediaType, "\" id=\"").concat(id, "\" href=\"page/info.html\"><img src=\"").concat(imgSrcLink, "\"/></a>\n        ")); //RETRIVE POSTER ID SO I CAN OPEN CORRECT
+            //INFO ON NEW PAGE
+
+            _context3.next = 23;
+            return regeneratorRuntime.awrap(openItemModal());
+
+          case 23:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    });
+  }; // let x = ['movie-1234', 'tv-1234']
+  // let f = ['movie-1234', 'tv-1234']
+  // let a = x[0].indexOf('-') + 1
+  // let b = x[1].indexOf('-') + 1
+  // ridMediaType(arr, 1)
+  // ridMediaType(arr, 0)
+  // //ridMediaType(x, 1)
+
 });
