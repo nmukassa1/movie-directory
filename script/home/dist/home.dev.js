@@ -129,7 +129,7 @@ $(document).ready(function () {
     if (buttonType === 'movie') return loadMedia(movieUrl, '.directory', 'movie');
     if (buttonType === 'tv') return loadMedia(tvUrl, '.directory', 'tv');
     if (buttonType === 'watchlist') return watchlist();
-    if (buttonType === 'filter') return console.log('filter');
+    if (buttonType === 'filter') return toggle();
   });
 
   var loadMedia = function loadMedia(url, appendTo, mediaType) {
@@ -191,14 +191,7 @@ $(document).ready(function () {
     for (var i = 0; i < arr.length; i++) {
       ridMediaType(arr, i);
     }
-  } // const obj = {...localStorage};
-  // delete obj.id
-  // delete obj.mediaType
-  // const arr = Object.keys(obj)
-  // arr.reverse()
-  // if(arr === null) return
-  // let watchlistUrl;
-
+  }
 
   var ridMediaType = function ridMediaType(array, i) {
     var mediaType, cutFrom, id, getPosterPath, res, posterPath, fetchImgData, imgData, baseUrl, backdropSize, imgSrcLink;
@@ -255,12 +248,45 @@ $(document).ready(function () {
         }
       }
     });
-  }; // let x = ['movie-1234', 'tv-1234']
-  // let f = ['movie-1234', 'tv-1234']
-  // let a = x[0].indexOf('-') + 1
-  // let b = x[1].indexOf('-') + 1
-  // ridMediaType(arr, 1)
-  // ridMediaType(arr, 0)
-  // //ridMediaType(x, 1)
+  }; //GENRE SELECTION SECTION
 
+
+  function getGenreList() {
+    var mediaType, genreUrl, genreFetch, genreData, genreContainer;
+    return regeneratorRuntime.async(function getGenreList$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            mediaType = localStorage.getItem('mediaType');
+            genreUrl = "https://api.themoviedb.org/3/genre/".concat(mediaType, "/list?api_key=").concat(apiKey, "&language=en-UK");
+            _context4.next = 4;
+            return regeneratorRuntime.awrap(fetch(genreUrl));
+
+          case 4:
+            genreFetch = _context4.sent;
+            _context4.next = 7;
+            return regeneratorRuntime.awrap(genreFetch.json());
+
+          case 7:
+            genreData = _context4.sent;
+            genreContainer = $('.genre ul');
+            genreData.genres.forEach(function (item) {
+              var li = document.createElement('li');
+              li.innerHTML = "\n                <button class=\"genre-item\" id=".concat(item.id, ">").concat(item.name, "</button>\n            ");
+              genreContainer.append(li);
+            }); //console.log(genreData)
+
+          case 10:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    });
+  }
+
+  function toggle() {
+    $('.genre').toggleClass('genre-appear');
+  }
+
+  getGenreList();
 });

@@ -40,3 +40,7 @@ nav {
   background: grey;
   height: 80px;
 }
+
+li {
+  list-style: none;
+}

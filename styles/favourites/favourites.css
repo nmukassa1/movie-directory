@@ -50,6 +50,10 @@ nav {
   height: 80px;
 }
 
+li {
+  list-style: none;
+}
+
 header {
   background-color: #002342;
   position: -webkit-sticky;

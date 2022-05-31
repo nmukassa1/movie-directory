@@ -82,7 +82,7 @@ $(document).ready(function(){
         if(buttonType === 'movie') return loadMedia(movieUrl, '.directory', 'movie')
         if(buttonType === 'tv') return loadMedia(tvUrl, '.directory', 'tv')
         if(buttonType === 'watchlist') return watchlist()
-        if(buttonType === 'filter') return console.log('filter')
+        if(buttonType === 'filter') return toggle()
     })
 
     const loadMedia = (url, appendTo, mediaType) =>{
@@ -161,18 +161,7 @@ $(document).ready(function(){
 
     }
 
-    
-    // const obj = {...localStorage};
-
-    // delete obj.id
-    // delete obj.mediaType
-
-    // const arr = Object.keys(obj)
-    // arr.reverse()
-
-    // if(arr === null) return
-
-    // let watchlistUrl;
+   
     const ridMediaType = async (array, i) =>{
         let mediaType;
         const cutFrom = array[i].indexOf('-') + 1;
@@ -215,13 +204,33 @@ $(document).ready(function(){
 
     }
     
-    // let x = ['movie-1234', 'tv-1234']
-    // let f = ['movie-1234', 'tv-1234']
-    // let a = x[0].indexOf('-') + 1
-    // let b = x[1].indexOf('-') + 1
-    // ridMediaType(arr, 1)
-    // ridMediaType(arr, 0)
-    // //ridMediaType(x, 1)
+
+
+
+    //GENRE SELECTION SECTION
     
+    async function getGenreList(){
+        const mediaType = localStorage.getItem('mediaType');
+
+        const genreUrl = `https://api.themoviedb.org/3/genre/${mediaType}/list?api_key=${apiKey}&language=en-UK`;
+        
+        const genreFetch = await fetch(genreUrl);
+        const genreData = await genreFetch.json();
+        const genreContainer = $('.genre ul');
+
+        genreData.genres.forEach(item =>{
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <button class="genre-item" id=${item.id}>${item.name}</button>
+            `;
+            genreContainer.append(li)
+        })
+        //console.log(genreData)
+    }
+
+    function toggle(){
+        $('.genre').toggleClass('genre-appear')
+    }
+    getGenreList()
 
 })

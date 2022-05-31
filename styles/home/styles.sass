@@ -14,6 +14,35 @@
 .poster:hover
     transform: scale(1.1)
 
+main
+    position: relative
+
+.genre
+    position: fixed
+    top: 160px
+    right: 0
+    z-index: 9999
+    background: white
+    box-shadow: 0 8px 5px hsla(0, 0%, 0%, .16)
+    border-radius: 0 0 0 20px
+    padding: 20px
+    width: 30%
+    transform: translateX(100%)
+    transition: transform .5s ease-in-out
+
+    ul
+        display: flex
+        gap: 10px
+        flex-wrap: wrap
+        margin-bottom: 20px
+
+    ul button
+            border: 1px solid rgba(0, 0, 0, 0.05)
+            border-radius: 100px
+            padding: .5rem .7rem
+
+.genre-appear
+    transform: translateX(0)
 
 @media (max-width: 414px)
     nav
