@@ -12,9 +12,12 @@ $(document).ready(function () {
   var apiKey = '335228310c6b751750199c1a453b7347'; //Api to get image details like sizes and logos
 
   var imgApi = "https://api.themoviedb.org/3/configuration?api_key=".concat(apiKey);
-  var page = 1;
-  var movieUrl = "https://api.themoviedb.org/3/trending/movie/day?api_key=".concat(apiKey, "&page=").concat(page);
-  var tvUrl = "https://api.themoviedb.org/3/trending/tv/day?api_key=".concat(apiKey, "&page=").concat(page);
+  var page = 1; // let movieUrl = `https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}&page=${page}`;
+  // let tvUrl = `https://api.themoviedb.org/3/trending/tv/day?api_key=${apiKey}&page=${page}`;
+  //DEAFULT URL WHEN PAGE IS LOADED
+
+  var url = "https://api.themoviedb.org/3/trending/movie/day?api_key=".concat(apiKey, "&page=").concat(page);
+  var genreArr = [];
 
   var getData = function getData(url, appendTo, mediaType) {
     var startPoint, data, i, posterPath, fetchImgData, imgData, baseUrl, backdropSize, imgSrcLink;
@@ -55,8 +58,9 @@ $(document).ready(function () {
             baseUrl = imgData.images.base_url;
             backdropSize = imgData.images.poster_sizes[4];
             imgSrcLink = baseUrl + backdropSize + posterPath; //console.log(imgSrcLink)
+            // <a class="poster ${mediaType}" id="${data.results[i].id}" href="page/info.html"><img src="${imgSrcLink}"/></a>
 
-            $(appendTo).append("\n                <a class=\"poster ".concat(mediaType, "\" id=\"").concat(data.results[i].id, "\" href=\"page/info.html\"><img src=\"").concat(imgSrcLink, "\"/></a>\n            "));
+            $(appendTo).append("\n                <button class=\"poster ".concat(mediaType, "\" id=\"").concat(data.results[i].id, "\"><img src=\"").concat(imgSrcLink, "\"/></button>\n            "));
 
           case 19:
             i++;
@@ -100,44 +104,115 @@ $(document).ready(function () {
         }
       }
     }, null, null, [[0, 5]]);
-  }
+  } //DEAFULT SETUP WHEN PAGE IS LOADED
+  //get(movieUrl, '.directory', 'movie')
+
+
+  get(url, '.directory', 'movie');
+  localStorage.setItem('mediaType', 'movie'); //MODAL FUNCTION
 
   function openItemModal() {
     return new Promise(function (res) {
-      var poster = document.querySelectorAll('a[href="page/info.html"]');
+      var poster = document.querySelectorAll('.poster');
       poster.forEach(function (item) {
         item.addEventListener('click', function () {
+          var id = item.id;
+
           if (item.classList.contains('movie')) {
             localStorage.setItem('mediaType', "movie");
           } else {
             localStorage.setItem('mediaType', "tv");
           }
 
-          localStorage.setItem('id', "".concat(item.id)); //localStorage.setItem('mediaType', `${item.id}`)
+          localStorage.setItem('id', "".concat(item.id));
+          $('.modal').css({
+            'height': '90vh'
+          });
+          openModalFetch(id);
         });
       });
       res();
     });
-  } //DEAFULT SETUP WHEN PAGE IS LOADED
+  }
 
+  function openModalFetch(id) {
+    var modalHero, url, initiation, data, backdropPath, fetchImgData, imgData, baseUrl, backdropSize, imgSrcLink;
+    return regeneratorRuntime.async(function openModalFetch$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            modalHero = $('#hero');
 
-  get(movieUrl, '.directory', 'movie');
-  localStorage.setItem('mediaType', 'movie');
+            if (localStorage.getItem('mediaType') === 'movie') {
+              url = "https://api.themoviedb.org/3/movie/".concat(id, "?api_key=").concat(apiKey, "&language=en-UK");
+            } else {
+              url = "https://api.themoviedb.org/3/tv/".concat(id, "?api_key=").concat(apiKey, "&language=en-UK");
+            }
+
+            _context3.next = 4;
+            return regeneratorRuntime.awrap(fetch(url));
+
+          case 4:
+            initiation = _context3.sent;
+            _context3.next = 7;
+            return regeneratorRuntime.awrap(initiation.json());
+
+          case 7:
+            data = _context3.sent;
+            console.log(data);
+            backdropPath = data.backdrop_path; //Fecth img base-url & img-size
+
+            _context3.next = 12;
+            return regeneratorRuntime.awrap(fetch(imgApi));
+
+          case 12:
+            fetchImgData = _context3.sent;
+            _context3.next = 15;
+            return regeneratorRuntime.awrap(fetchImgData.json());
+
+          case 15:
+            imgData = _context3.sent;
+            console.log(imgData);
+            baseUrl = imgData.images.base_url;
+            backdropSize = imgData.images.backdrop_sizes[1];
+            imgSrcLink = baseUrl + backdropSize + backdropPath;
+            modalHero.css('background-image', "url(".concat(imgSrcLink, ")"));
+
+          case 21:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    });
+  }
+
   $('nav button').click(function (e) {
     //WHAT BUTTON AM I CLICKING ON?
     var buttonType = e.target.id;
-    if (buttonType === 'movie') return loadMedia(movieUrl, '.directory', 'movie');
-    if (buttonType === 'tv') return loadMedia(tvUrl, '.directory', 'tv');
+
+    if (buttonType === 'movie') {
+      loadMedia('.directory', 'movie', buttonType);
+      getGenreList('movie');
+    }
+
+    if (buttonType === 'tv') {
+      loadMedia('.directory', 'tv', buttonType);
+      getGenreList('tv');
+    }
+
     if (buttonType === 'watchlist') return watchlist();
     if (buttonType === 'filter') return toggle();
   });
 
-  var loadMedia = function loadMedia(url, appendTo, mediaType) {
+  var loadMedia = function loadMedia(appendTo, mediaType, buttonType) {
     //EMPTY DIRECTORY
-    $('.directory').empty(); // page = 1
-    // if(mediaType === 'movie') movieUrl = `https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}&page=${page}`;
-    // if(mediaType === 'tv') tvUrl = `https://api.themoviedb.org/3/trending/tv/day?api_key=${apiKey}&page=${page}`
-    //UPDATE DIRECTORY
+    $('.directory').empty();
+    page = 1;
+    genreArr = [];
+    console.log(genreArr); //console.log(url)
+
+    if (buttonType === 'movie') url = "https://api.themoviedb.org/3/trending/movie/day?api_key=".concat(apiKey, "&page=").concat(page);
+    if (buttonType === 'tv') url = "https://api.themoviedb.org/3/trending/tv/day?api_key=".concat(apiKey, "&page=").concat(page); //console.log(url)
 
     get(url, appendTo, mediaType);
     localStorage.setItem('mediaType', mediaType);
@@ -145,20 +220,29 @@ $(document).ready(function () {
 
   var loadMoreItems = function loadMoreItems() {
     var scrollable = document.documentElement.scrollHeight - window.innerHeight;
-    var scrolled = window.scrollY;
-    var url;
+    var scrolled = window.scrollY; //let url;
+
     var media = localStorage.getItem('mediaType');
 
     if (scrolled === scrollable) {
       page += 1;
+      var genreStr = genreArr.join(',');
 
-      if (media === 'movie') {
-        url = "https://api.themoviedb.org/3/trending/movie/day?api_key=".concat(apiKey, "&page=").concat(page);
+      if (genreArr.length === 0) {
+        if (media === 'movie') {
+          url = "https://api.themoviedb.org/3/trending/movie/day?api_key=".concat(apiKey, "&page=").concat(page);
+        } else {
+          url = "https://api.themoviedb.org/3/trending/tv/day?api_key=".concat(apiKey, "&page=").concat(page);
+        }
       } else {
-        url = "https://api.themoviedb.org/3/trending/tv/day?api_key=".concat(apiKey, "&page=").concat(page);
+        if (media === 'movie') {
+          url = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(page, "&with_genres=").concat(genreStr);
+        } else {
+          url = "https://api.themoviedb.org/3/discover/tv?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(page, "&with_genres=").concat(genreStr);
+        }
       }
 
-      get(url, '.directory', media);
+      get(url, '.directory', media); //console.log(page, url)
     }
   };
 
@@ -195,9 +279,9 @@ $(document).ready(function () {
 
   var ridMediaType = function ridMediaType(array, i) {
     var mediaType, cutFrom, id, getPosterPath, res, posterPath, fetchImgData, imgData, baseUrl, backdropSize, imgSrcLink;
-    return regeneratorRuntime.async(function ridMediaType$(_context3) {
+    return regeneratorRuntime.async(function ridMediaType$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
             cutFrom = array[i].indexOf('-') + 1;
             id = array[i].slice(cutFrom, array[i].length); //console.log(arr)
@@ -210,28 +294,28 @@ $(document).ready(function () {
               mediaType = 'tv';
             }
 
-            _context3.next = 5;
+            _context4.next = 5;
             return regeneratorRuntime.awrap(fetch(watchlistUrl));
 
           case 5:
-            getPosterPath = _context3.sent;
-            _context3.next = 8;
+            getPosterPath = _context4.sent;
+            _context4.next = 8;
             return regeneratorRuntime.awrap(getPosterPath.json());
 
           case 8:
-            res = _context3.sent;
+            res = _context4.sent;
             posterPath = res.poster_path; //Fecth img base-url & img-size
 
-            _context3.next = 12;
+            _context4.next = 12;
             return regeneratorRuntime.awrap(fetch(imgApi));
 
           case 12:
-            fetchImgData = _context3.sent;
-            _context3.next = 15;
+            fetchImgData = _context4.sent;
+            _context4.next = 15;
             return regeneratorRuntime.awrap(fetchImgData.json());
 
           case 15:
-            imgData = _context3.sent;
+            imgData = _context4.sent;
             baseUrl = imgData.images.base_url;
             backdropSize = imgData.images.poster_sizes[4];
             imgSrcLink = baseUrl + backdropSize + posterPath; //console.log(imgSrcLink)
@@ -239,48 +323,49 @@ $(document).ready(function () {
             $('.directory').append("\n            <a class=\"poster ".concat(mediaType, "\" id=\"").concat(id, "\" href=\"page/info.html\"><img src=\"").concat(imgSrcLink, "\"/></a>\n        ")); //RETRIVE POSTER ID SO I CAN OPEN CORRECT
             //INFO ON NEW PAGE
 
-            _context3.next = 22;
+            _context4.next = 22;
             return regeneratorRuntime.awrap(openItemModal());
 
           case 22:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
     });
   }; //GENRE SELECTION SECTION
 
 
-  function getGenreList() {
-    var mediaType, genreUrl, genreFetch, genreData, genreContainer;
-    return regeneratorRuntime.async(function getGenreList$(_context4) {
+  function getGenreList(mediaType) {
+    var genreUrl, genreFetch, genreData, genreContainer;
+    return regeneratorRuntime.async(function getGenreList$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            mediaType = localStorage.getItem('mediaType');
+            //const mediaType = localStorage.getItem('mediaType');
             genreUrl = "https://api.themoviedb.org/3/genre/".concat(mediaType, "/list?api_key=").concat(apiKey, "&language=en-UK");
-            _context4.next = 4;
+            _context5.next = 3;
             return regeneratorRuntime.awrap(fetch(genreUrl));
 
-          case 4:
-            genreFetch = _context4.sent;
-            _context4.next = 7;
+          case 3:
+            genreFetch = _context5.sent;
+            _context5.next = 6;
             return regeneratorRuntime.awrap(genreFetch.json());
 
-          case 7:
-            genreData = _context4.sent;
+          case 6:
+            genreData = _context5.sent;
             genreContainer = $('.genre ul');
+            genreContainer.html('');
             genreData.genres.forEach(function (item) {
               var li = document.createElement('li');
               li.innerHTML = "\n                <button class=\"genre-item\" id=".concat(item.id, ">").concat(item.name, "</button>\n            ");
               genreContainer.append(li);
             }); //UPDATE DIRECTORY FUNCTION WITH GENRE SEARCH
 
-            selectGnere();
+            selectGnere(mediaType);
 
           case 11:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
     });
@@ -290,10 +375,10 @@ $(document).ready(function () {
     $('.genre').toggleClass('genre-appear');
   }
 
-  getGenreList();
+  getGenreList('movie');
 
-  function selectGnere() {
-    var genreArr = [];
+  function selectGnere(mediaType) {
+    // let genreArr = [];
     var genreBtn = document.querySelectorAll('.genre-item');
     genreBtn.forEach(function (item) {
       item.addEventListener('click', function () {
@@ -313,9 +398,16 @@ $(document).ready(function () {
     var searchGenreButton = $('#genre-search');
     searchGenreButton.click(function () {
       var genreStr = genreArr.join(',');
-      var genreUrl = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=1&with_genres=").concat(genreStr);
+      page = 1;
+
+      if (mediaType === 'movie') {
+        url = "https://api.themoviedb.org/3/discover/movie?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(page, "&with_genres=").concat(genreStr);
+      } else {
+        url = "https://api.themoviedb.org/3/discover/tv?api_key=".concat(apiKey, "&language=en-UK&sort_by=popularity.desc&include_adult=true&page=").concat(page, "&with_genres=").concat(genreStr);
+      }
+
       $('.directory').empty();
-      get(genreUrl, '.directory', 'movie');
+      get(url, '.directory', 'movie');
     });
   }
 });

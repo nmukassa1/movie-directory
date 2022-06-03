@@ -32,11 +32,12 @@ a {
 img {
   display: block;
   width: 100%;
+  pointer-events: none;
 }
 
 nav {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   background: grey;
   height: 80px;
 }
@@ -110,6 +111,26 @@ main {
 .genre-button-toggle {
   background-color: #00B5E8;
   color: white;
+}
+
+.modal {
+  position: fixed;
+  height: 0;
+  width: 90vw;
+  background: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99999;
+  transition: all 0.5s ease-in-out;
+}
+
+#hero {
+  height: 75%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  filter: brightness(0.7);
 }
 
 @media (max-width: 414px) {
