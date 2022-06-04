@@ -161,7 +161,7 @@ main {
 }
 
 #hero {
-  height: 75%;
+  height: 100%;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -224,6 +224,15 @@ main {
 
 #hero-buttons button:first-child {
   margin-right: 20px;
+}
+
+.favourites-animation {
+  -webkit-animation-name: favourites;
+          animation-name: favourites;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
 }
 
 @media (max-width: 414px) {

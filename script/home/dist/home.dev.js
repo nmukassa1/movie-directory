@@ -231,7 +231,32 @@ $(document).ready(function () {
         }
       }
     });
-  }
+  } //ADD TO WATCHLIST
+
+
+  $('#favourites').click(function () {
+    var id = localStorage.getItem('id');
+    var mediaType = localStorage.getItem('mediaType');
+    var favourited = localStorage.getItem("".concat(mediaType, "-").concat(id));
+
+    if (favourited) {
+      localStorage.removeItem("".concat(mediaType, "-").concat(id));
+      $('#favourites').css('color', '');
+      $('#favourites').removeClass('favourites-animation');
+    } else {
+      localStorage.setItem("".concat(mediaType, "-").concat(id), "".concat(id));
+      $('#favourites').css('color', '#EB5353');
+      $('#favourites').addClass('favourites-animation');
+    }
+  }); //When window loads
+  // function onLoad(){
+  //     if(localStorage.getItem(`${mediaType}-${id}`)){
+  //         $('#favourites').css('color', '#EB5353')
+  //     } else{
+  //         $('#favourites').css('color', '')
+  //     }
+  // }
+  // onLoad()
 
   $('nav button').click(function (e) {
     //WHAT BUTTON AM I CLICKING ON?

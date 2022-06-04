@@ -81,6 +81,8 @@ $(document).ready(function(){
 
                     const id = item.id;
 
+                    
+
                     if(item.classList.contains('movie')){
                         localStorage.setItem('mediaType', `movie`)
                     } else{
@@ -103,6 +105,12 @@ $(document).ready(function(){
 
                 })
             })
+
+
+            
+
+
+
             res()
         })
     }
@@ -196,6 +204,37 @@ $(document).ready(function(){
     }
 
 
+
+    //ADD TO WATCHLIST
+    $('#favourites').click(() =>{
+
+        const id = localStorage.getItem('id')
+        const mediaType = localStorage.getItem('mediaType')
+
+        const favourited = localStorage.getItem(`${mediaType}-${id}`);
+
+
+        if(favourited){
+            localStorage.removeItem(`${mediaType}-${id}`)
+            $('#favourites').css('color', '')
+            $('#favourites').removeClass('favourites-animation')
+        } else{
+            localStorage.setItem(`${mediaType}-${id}`, `${id}`)
+            $('#favourites').css('color', '#EB5353')
+            $('#favourites').addClass('favourites-animation')
+        }
+    })
+
+    //When window loads
+    // function onLoad(){
+    //     if(localStorage.getItem(`${mediaType}-${id}`)){
+    //         $('#favourites').css('color', '#EB5353')
+    //     } else{
+    //         $('#favourites').css('color', '')
+    //     }
+    // }
+
+    // onLoad()
 
 
 
