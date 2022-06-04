@@ -128,57 +128,104 @@ $(document).ready(function () {
           $('.modal').css({
             'height': '90vh'
           });
-          openModalFetch(id);
+          $('main').css({
+            'overflow': 'hidden'
+          });
+
+          try {
+            openModalFetch(id);
+          } catch (e) {
+            console.log(e);
+          }
         });
       });
       res();
     });
   }
 
+  $('body').keypress(function (e) {
+    if (e.key === 'Enter') {
+      $('.modal').css('height', '0');
+      $('main').css({
+        'overflow': 'initial'
+      });
+    }
+  });
+
   function openModalFetch(id) {
-    var modalHero, url, initiation, data, backdropPath, fetchImgData, imgData, baseUrl, backdropSize, imgSrcLink;
+    var url, initiation, data, backdropPath, fetchImgData, imgData, baseUrl, backdropSize, imgSrcLink, runtime, hr, min, genresArr, releaseDateArr, releaseDate;
     return regeneratorRuntime.async(function openModalFetch$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            modalHero = $('#hero');
-
             if (localStorage.getItem('mediaType') === 'movie') {
               url = "https://api.themoviedb.org/3/movie/".concat(id, "?api_key=").concat(apiKey, "&language=en-UK");
             } else {
               url = "https://api.themoviedb.org/3/tv/".concat(id, "?api_key=").concat(apiKey, "&language=en-UK");
             }
 
-            _context3.next = 4;
+            _context3.next = 3;
             return regeneratorRuntime.awrap(fetch(url));
 
-          case 4:
+          case 3:
             initiation = _context3.sent;
-            _context3.next = 7;
+            _context3.next = 6;
             return regeneratorRuntime.awrap(initiation.json());
 
-          case 7:
+          case 6:
             data = _context3.sent;
             console.log(data);
             backdropPath = data.backdrop_path; //Fecth img base-url & img-size
 
-            _context3.next = 12;
+            _context3.next = 11;
             return regeneratorRuntime.awrap(fetch(imgApi));
 
-          case 12:
+          case 11:
             fetchImgData = _context3.sent;
-            _context3.next = 15;
+            _context3.next = 14;
             return regeneratorRuntime.awrap(fetchImgData.json());
 
-          case 15:
+          case 14:
             imgData = _context3.sent;
-            console.log(imgData);
             baseUrl = imgData.images.base_url;
-            backdropSize = imgData.images.backdrop_sizes[1];
-            imgSrcLink = baseUrl + backdropSize + backdropPath;
-            modalHero.css('background-image', "url(".concat(imgSrcLink, ")"));
+            backdropSize = imgData.images.backdrop_sizes[2];
+            imgSrcLink = baseUrl + backdropSize + backdropPath; //APPEND DATA   
 
-          case 21:
+            $('#hero-bg').css('background-image', "url(".concat(imgSrcLink, ")"));
+            $('#title').text(data.title || data.name);
+            $('#bio').text(data.overview); //RUNTIME
+
+            if (data.runtime) {
+              runtime = data.runtime;
+            } else {
+              runtime = data.episode_run_time;
+            }
+
+            min = "".concat(runtime % 60, "m");
+
+            if (runtime > 60) {
+              hr = "".concat(Math.floor(runtime / 60), "h");
+            }
+
+            $('#hr').text(hr);
+            $('#min').text(min); //GENRES
+
+            genresArr = [];
+            data.genres.forEach(function (genreName) {
+              genresArr.push(genreName.name);
+            });
+            $('#genre').text(genresArr.join(', ')); //RELEASE DATE
+
+            if (data.release_date) {
+              releaseDateArr = data.release_date.split('-');
+            } else {
+              releaseDateArr = data.first_air_date.split('-');
+            }
+
+            releaseDate = [releaseDateArr[2], releaseDateArr[1], releaseDateArr[0]].join('-');
+            $('#release').text(releaseDate);
+
+          case 32:
           case "end":
             return _context3.stop();
         }

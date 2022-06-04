@@ -63,16 +63,56 @@ main
     transform: translate(-50%, -50%)
     z-index: 99999
     transition: all .5s ease-in-out
+    overflow: scroll
     //display: none
+
+.pl-50
+    padding-left: 50px
 
 #hero
     height: 75%
+    position: relative
+    display: flex
+    align-items: center
+
+    &-content
+        color: white
+
+#hero-bg
     background-repeat: no-repeat
     background-position: center
     background-size: cover 
-    filter: brightness(.7)
+    filter: brightness(.4)
+    height: 100%
+    width: 100%
+    position: absolute
+    top: 0
+    left: 0
+    z-index: -1
 
+#s-details
+    display: flex
+    align-items: center
+    gap: 10px
+    font-size: .8rem
 
+#bio
+    max-width: 546px
+    margin: 20px 0
+    line-height: 21px
+    @media (max-width: 414px)
+        margin-right: 5%
+
+#title
+    font-weight: 700
+    font-size: 62px
+
+#hero-buttons button
+    font-size: 3rem
+    color: hsla(0, 0%, 100%, .65)
+
+    &:first-child
+        margin-right: 20px
 
 
 

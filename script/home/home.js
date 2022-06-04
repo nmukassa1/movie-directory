@@ -90,8 +90,14 @@ $(document).ready(function(){
                     
                     $('.modal').css({'height':'90vh'})
 
+                    $('main').css({'overflow':'hidden'})
 
-                    openModalFetch(id)
+
+                    try{
+                        openModalFetch(id)
+                    } catch(e){
+                        console.log(e)
+                    }
 
 
 
@@ -101,8 +107,14 @@ $(document).ready(function(){
         })
     }
 
+    $('body').keypress((e) =>{
+        if(e.key === 'Enter'){
+            $('.modal').css('height', '0')
+            $('main').css({'overflow':'initial'})
+        }
+    })
+
     async function openModalFetch(id){
-        const modalHero = $('#hero')
 
         let url;
         if(localStorage.getItem('mediaType') === 'movie'){
@@ -121,13 +133,64 @@ $(document).ready(function(){
         const fetchImgData = await fetch(imgApi);
         const imgData = await fetchImgData.json();
 
-        console.log(imgData)
+        
         const baseUrl = imgData.images.base_url;
-        const backdropSize = imgData.images.backdrop_sizes[1];
+        const backdropSize = imgData.images.backdrop_sizes[2];
 
         const imgSrcLink = baseUrl + backdropSize + backdropPath;
 
-        modalHero.css('background-image', `url(${imgSrcLink})`)
+
+
+
+        //APPEND DATA   
+        $('#hero-bg').css('background-image', `url(${imgSrcLink})`)
+
+        $('#title').text(data.title || data.name)
+
+        $('#bio').text(data.overview)
+
+
+        //RUNTIME
+        let runtime;
+        if(data.runtime){
+            runtime = data.runtime
+        } else{
+            runtime = data.episode_run_time
+        }
+        let hr;
+        const min = `${runtime % 60}m`;
+        
+        if(runtime > 60){
+            hr = `${Math.floor(runtime / 60)}h`;
+        }
+        
+        $('#hr').text(hr);
+        $('#min').text(min);
+
+
+
+        //GENRES
+        let genresArr = [];
+        data.genres.forEach(genreName =>{
+            genresArr.push(genreName.name)
+        })
+        $('#genre').text(genresArr.join(', '))
+
+
+        //RELEASE DATE
+        let releaseDateArr;
+        if(data.release_date){
+            releaseDateArr = data.release_date.split('-')
+        } else{
+            releaseDateArr = data.first_air_date.split('-')
+        }
+        const releaseDate = [releaseDateArr[2], releaseDateArr[1], releaseDateArr[0]].join('-');
+        $('#release').text(releaseDate)
+
+
+
+        
+
 
 
     }
