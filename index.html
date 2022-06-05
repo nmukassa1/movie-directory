@@ -49,23 +49,39 @@
 
     
     <section class="modal">
-        <div id="hero" class="pl-50">
-            <div id="hero-content" class="">
-                <h1 id="title"></h1>
-                <div id="s-details">
-                    <div id="run-time"><span id="hr"></span> <span id="min"></span></div>
-                    <div id="release"></div>
-                    <div id="genre"></div>
+        <div class="hero-contain">
+            <div id="hero" class="pl-50">
+                <div id="hero-content" class="">
+                    <h1 id="title"></h1>
+                    <div id="s-details">
+                        <div id="run-time"><span id="hr"></span> <span id="min"></span></div>
+                        <div id="release"></div>
+                        <div id="genre"></div>
+                    </div>
+                    <p id="bio"></p>
+            
+                    <div id="hero-buttons">
+                        <button id="trailer-button"><i class="fa-solid fa-circle-play"></i></button>
+                        <button id="favourites"><i class="fa-regular fa-heart"></i></button>
+                    </div>
                 </div>
-                <p id="bio"></p>
-        
-                <div id="hero-buttons">
-                    <button id="trailer-button"><i class="fa-solid fa-circle-play"></i></button>
-                    <button id="favourites"><i class="fa-regular fa-heart"></i></button>
+                <div id="hero-bg"></div>
+            </div>
+        </div>
+
+        <section id="trailer">
+            <div id="trailer-contain">
+                <div id="exit">
+                    <button id="close-trailer-button"><i class="fa-solid fa-x"></i></button>
+                </div>
+                <div id="iframe-container">
+                    <iframe src="" frameborder="0" allowfullscreen="true"></iframe>
+                </div>
+                <div id="error">
+                    <h1>Video doesn't exist</h1>
                 </div>
             </div>
-            <div id="hero-bg"></div>
-        </div>
+        </section>
     </section>
 
     <script src="script/home/home.js"></script>

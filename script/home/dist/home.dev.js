@@ -126,9 +126,9 @@ $(document).ready(function () {
 
           localStorage.setItem('id', "".concat(item.id));
           $('.modal').css({
-            'height': '90vh'
+            'height': '100vh'
           });
-          $('main').css({
+          $('body').css({
             'overflow': 'hidden'
           });
 
@@ -136,6 +136,16 @@ $(document).ready(function () {
             openModalFetch(id);
           } catch (e) {
             console.log(e);
+          } //IF ITEM IS IN WATCHLIST, HIGHLIGHT FAVOURITES BUTTON
+
+
+          var mediaType = localStorage.getItem('mediaType');
+          var isInWtchlist = Object.keys(localStorage).includes("".concat(mediaType, "-").concat(id));
+
+          if (isInWtchlist) {
+            $('#favourites').css('color', '#EB5353');
+          } else {
+            $('#favourites').css('color', '');
           }
         });
       });
@@ -145,8 +155,10 @@ $(document).ready(function () {
 
   $('body').keypress(function (e) {
     if (e.key === 'Enter') {
-      $('.modal').css('height', '0');
-      $('main').css({
+      $('.modal').css({
+        'height': '0'
+      });
+      $('body').css({
         'overflow': 'initial'
       });
     }
@@ -235,29 +247,68 @@ $(document).ready(function () {
 
 
   $('#favourites').click(function () {
-    var id = localStorage.getItem('id');
+    isItemInWatchlist(localStorage.getItem('id'));
+  });
+
+  function isItemInWatchlist() {
+    var itemId = localStorage.getItem('id');
     var mediaType = localStorage.getItem('mediaType');
-    var favourited = localStorage.getItem("".concat(mediaType, "-").concat(id));
+    var favourited = Object.keys(localStorage).includes("".concat(mediaType, "-").concat(itemId));
 
     if (favourited) {
-      localStorage.removeItem("".concat(mediaType, "-").concat(id));
+      localStorage.removeItem("".concat(mediaType, "-").concat(itemId));
       $('#favourites').css('color', '');
       $('#favourites').removeClass('favourites-animation');
     } else {
-      localStorage.setItem("".concat(mediaType, "-").concat(id), "".concat(id));
+      localStorage.setItem("".concat(mediaType, "-").concat(itemId), "".concat(itemId));
       $('#favourites').css('color', '#EB5353');
       $('#favourites').addClass('favourites-animation');
     }
-  }); //When window loads
-  // function onLoad(){
-  //     if(localStorage.getItem(`${mediaType}-${id}`)){
-  //         $('#favourites').css('color', '#EB5353')
-  //     } else{
-  //         $('#favourites').css('color', '')
-  //     }
-  // }
-  // onLoad()
+  } //Trailer
 
+
+  function trailer(videoUrl) {
+    fetch(videoUrl).then(function (res) {
+      return res.json();
+    }).then(function (data) {
+      console.log(data);
+      var key;
+
+      for (var i = 0; i < data.results.length; i++) {
+        if (data.results[i].type === 'Trailer' || 'Opening Credits' && data.results[i].site === 'YouTube') {
+          key = data.results[i].key;
+          break;
+        } else {
+          continue; // key = data.results[i].key;
+        }
+      }
+
+      var link = "https://www.youtube.com/embed/".concat(key);
+      document.querySelector('iframe').src = link;
+      $('#trailer').css('display', 'grid');
+      $('body').css('overflow', 'hidden');
+    });
+  } //Open trailer
+
+
+  $('#trailer-button').click(function () {
+    var videoUrl;
+    var id = localStorage.getItem('id');
+
+    if (localStorage.getItem('mediaType') === 'movie') {
+      videoUrl = "https://api.themoviedb.org/3/movie/".concat(id, "/videos?api_key=").concat(apiKey, "&language=en-UK");
+    } else {
+      videoUrl = "https://api.themoviedb.org/3/tv/".concat(id, "/videos?api_key=").concat(apiKey, "&language=en-UK");
+    }
+
+    trailer(videoUrl);
+  }); //Close trailer
+
+  $('#close-trailer-button').click(function () {
+    $('#trailer').hide();
+    $('body').css('overflow', 'initial');
+    $('iframe').attr('src', '');
+  });
   $('nav button').click(function (e) {
     //WHAT BUTTON AM I CLICKING ON?
     var buttonType = e.target.id;
@@ -392,7 +443,7 @@ $(document).ready(function () {
             backdropSize = imgData.images.poster_sizes[4];
             imgSrcLink = baseUrl + backdropSize + posterPath; //console.log(imgSrcLink)
 
-            $('.directory').append("\n            <a class=\"poster ".concat(mediaType, "\" id=\"").concat(id, "\" href=\"page/info.html\"><img src=\"").concat(imgSrcLink, "\"/></a>\n        ")); //RETRIVE POSTER ID SO I CAN OPEN CORRECT
+            $('.directory').append("\n            <button class=\"poster ".concat(mediaType, "\" id=\"").concat(id, "\"><img src=\"").concat(imgSrcLink, "\"/></button>\n        ")); //RETRIVE POSTER ID SO I CAN OPEN CORRECT
             //INFO ON NEW PAGE
 
             _context4.next = 22;

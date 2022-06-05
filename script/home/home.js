@@ -90,9 +90,9 @@ $(document).ready(function(){
                     }
                     localStorage.setItem('id', `${item.id}`)
                     
-                    $('.modal').css({'height':'90vh'})
+                    $('.modal').css({'height':'100vh'})
 
-                    $('main').css({'overflow':'hidden'})
+                    $('body').css({'overflow':'hidden'})
 
 
                     try{
@@ -101,15 +101,20 @@ $(document).ready(function(){
                         console.log(e)
                     }
 
+                   
+                    //IF ITEM IS IN WATCHLIST, HIGHLIGHT FAVOURITES BUTTON
+                    const mediaType = localStorage.getItem('mediaType');
 
+                    const isInWtchlist = Object.keys(localStorage).includes(`${mediaType}-${id}`);
+
+                    if(isInWtchlist){
+                        $('#favourites').css('color', '#EB5353')
+                    } else{
+                        $('#favourites').css('color', '')
+                    }
 
                 })
             })
-
-
-            
-
-
 
             res()
         })
@@ -117,8 +122,8 @@ $(document).ready(function(){
 
     $('body').keypress((e) =>{
         if(e.key === 'Enter'){
-            $('.modal').css('height', '0')
-            $('main').css({'overflow':'initial'})
+            $('.modal').css({'height':'0'})
+            $('body').css({'overflow':'initial'})
         }
     })
 
@@ -206,35 +211,78 @@ $(document).ready(function(){
 
 
     //ADD TO WATCHLIST
-    $('#favourites').click(() =>{
+    $('#favourites').click(() => {
+        isItemInWatchlist(localStorage.getItem('id'))
+    })
 
-        const id = localStorage.getItem('id')
+    function isItemInWatchlist(){
+        const itemId = localStorage.getItem('id')
         const mediaType = localStorage.getItem('mediaType')
 
-        const favourited = localStorage.getItem(`${mediaType}-${id}`);
+        const favourited = Object.keys(localStorage).includes(`${mediaType}-${itemId}`);
 
 
         if(favourited){
-            localStorage.removeItem(`${mediaType}-${id}`)
+            localStorage.removeItem(`${mediaType}-${itemId}`)
             $('#favourites').css('color', '')
             $('#favourites').removeClass('favourites-animation')
         } else{
-            localStorage.setItem(`${mediaType}-${id}`, `${id}`)
+            localStorage.setItem(`${mediaType}-${itemId}`, `${itemId}`)
             $('#favourites').css('color', '#EB5353')
             $('#favourites').addClass('favourites-animation')
         }
+    }
+
+    
+
+
+
+    //Trailer
+    function trailer(videoUrl) {
+        fetch(videoUrl)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            let key;
+            
+            for(let i = 0; i < data.results.length; i++){
+                if(data.results[i].type === 'Trailer' || 'Opening Credits' && data.results[i].site === 'YouTube'){
+                    key = data.results[i].key;
+                    break
+                } else {
+                    continue
+                    // key = data.results[i].key;
+                }
+            }
+    
+            const link = `https://www.youtube.com/embed/${key}`;
+            document.querySelector('iframe').src = link;
+
+            $('#trailer').css('display', 'grid')
+            $('body').css('overflow', 'hidden')
+    
+        })
+    }
+
+    //Open trailer
+    $('#trailer-button').click(() => {
+        let videoUrl;
+        let id = localStorage.getItem('id')
+
+        if(localStorage.getItem('mediaType') === 'movie'){
+            videoUrl = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${apiKey}&language=en-UK`
+        } else{
+            videoUrl = `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${apiKey}&language=en-UK`
+        }
+        trailer(videoUrl)
     })
 
-    //When window loads
-    // function onLoad(){
-    //     if(localStorage.getItem(`${mediaType}-${id}`)){
-    //         $('#favourites').css('color', '#EB5353')
-    //     } else{
-    //         $('#favourites').css('color', '')
-    //     }
-    // }
-
-    // onLoad()
+    //Close trailer
+    $('#close-trailer-button').click(() =>{
+        $('#trailer').hide()
+        $('body').css('overflow', 'initial')
+        $('iframe').attr('src', '')
+    })
 
 
 
@@ -389,7 +437,7 @@ $(document).ready(function(){
         //console.log(imgSrcLink)
 
         $('.directory').append(`
-            <a class="poster ${mediaType}" id="${id}" href="page/info.html"><img src="${imgSrcLink}"/></a>
+            <button class="poster ${mediaType}" id="${id}"><img src="${imgSrcLink}"/></button>
         `)
 
         //RETRIVE POSTER ID SO I CAN OPEN CORRECT

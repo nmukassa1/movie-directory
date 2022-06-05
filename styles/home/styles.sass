@@ -56,18 +56,25 @@ main
 .modal
     position: fixed
     height: 0
-    width: 90vw
-    background: white
+    width: 100vw
+    display: grid
+    background: hsla(0, 0%, 0%, .5)
     top: 50%
     left: 50%
     transform: translate(-50%, -50%)
     z-index: 99999
     transition: all .5s ease-in-out
     overflow: scroll
+    
     //display: none
 
 .pl-50
     padding-left: 50px
+
+.hero-contain
+    height: 90%
+    width: 90%
+    margin: auto
 
 #hero
     height: 100%
@@ -120,6 +127,45 @@ main
     animation-iteration-count: 1
     animation-duration: 2s
 
+
+
+
+
+#trailer
+    width: inherit
+    height: inherit
+    background-color: hsla(0, 0%, 0%, .5)
+    position: absolute 
+    top: 0
+    left: 0
+    display: grid
+    place-content: center
+    display: none
+
+    &-contain
+        width: 70vw
+        height: 70vh
+        display: grid
+        place-content: center
+
+
+
+#iframe-container, iframe
+    width: inherit
+    height: inherit
+
+#exit
+    display: flex
+    justify-content: right
+    margin-bottom: 5px
+
+    button
+        color: white
+        font-size: 20px
+    
+    
+#error
+    display: none
 
 
 @media (max-width: 414px)
