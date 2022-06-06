@@ -153,17 +153,6 @@ $(document).ready(function () {
     });
   }
 
-  $('body').keypress(function (e) {
-    if (e.key === 'Enter') {
-      $('.modal').css({
-        'height': '0'
-      });
-      $('body').css({
-        'overflow': 'initial'
-      });
-    }
-  });
-
   function openModalFetch(id) {
     var url, initiation, data, backdropPath, fetchImgData, imgData, baseUrl, backdropSize, imgSrcLink, runtime, hr, min, genresArr, releaseDateArr, releaseDate;
     return regeneratorRuntime.async(function openModalFetch$(_context3) {
@@ -243,8 +232,17 @@ $(document).ready(function () {
         }
       }
     });
-  } //ADD TO WATCHLIST
+  } //CLOSE MODAL
 
+
+  $('#close-modal-button').click(function () {
+    $('.modal').css({
+      'height': '0'
+    });
+    $('body').css({
+      'overflow': 'initial'
+    });
+  }); //ADD TO WATCHLIST
 
   $('#favourites').click(function () {
     isItemInWatchlist(localStorage.getItem('id'));

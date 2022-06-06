@@ -120,13 +120,6 @@ $(document).ready(function(){
         })
     }
 
-    $('body').keypress((e) =>{
-        if(e.key === 'Enter'){
-            $('.modal').css({'height':'0'})
-            $('body').css({'overflow':'initial'})
-        }
-    })
-
     async function openModalFetch(id){
 
         let url;
@@ -207,6 +200,12 @@ $(document).ready(function(){
 
 
     }
+
+    //CLOSE MODAL
+    $('#close-modal-button').click(() =>{
+        $('.modal').css({'height':'0'})
+        $('body').css({'overflow':'initial'})
+    })
 
 
 
