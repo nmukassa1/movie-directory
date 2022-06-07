@@ -131,7 +131,7 @@ $(document).ready(function(){
 
         const initiation = await fetch(url);
         const data = await initiation.json();
-        console.log(data)
+        //console.log(data)
 
         const backdropPath = data.backdrop_path;
 
@@ -374,6 +374,7 @@ $(document).ready(function(){
     function watchlist(){
         $('.directory').empty();
         
+        
         //Obkect to hold localstorage 
         const obj = {...localStorage};
 
@@ -515,5 +516,63 @@ $(document).ready(function(){
             get(url, '.directory', 'movie')
         })
     }
+
+
+
+
+
+
+
+    
+    //SEARCH FOR MOVE/TV SHOW
+    
+    $('#search').keypress((e) =>{
+        if(e.key !== 'Enter') return
+        const searchQuery = $('#search').val();
+        $('#search-results').empty()
+        
+        search(searchQuery)
+        $('#search').val('');
+    })
+
+    async function search(searchQuery){
+        const searchFetch = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-UK&query=${searchQuery}&page=1&include_adult=true`)
+
+        const searchResult = await searchFetch.json();
+
+        const items = searchResult.results;
+
+        console.log(searchResult)
+
+        for(let i = 0; i < items.length; i++){
+            const posterPath = items[i].poster_path;
+
+            //Fecth img base-url & img-size
+            const fetchImgData = await fetch(imgApi);
+            const imgData = await fetchImgData.json();
+
+            const baseUrl = imgData.images.base_url;
+            const backdropSize = imgData.images.poster_sizes[4];
+
+            const imgSrcLink = baseUrl + backdropSize + posterPath;
+
+            //console.log(imgSrcLink)
+
+            // <a class="poster ${mediaType}" id="${data.results[i].id}" href="page/info.html"><img src="${imgSrcLink}"/></a>
+            $('#search-results').append(`
+                <button class="poster movie" id="${items[i].id}"><img src="${imgSrcLink}"/></button>
+            `)
+        }
+
+        //OPEN SEARCH RESULTS
+        $('#search-results').css('max-height', '600px')
+
+        //RETRIVE POSTER ID SO I CAN OPEN CORRECT
+        //INFO ON NEW PAGE
+        await openItemModal()
+    }
+
+    //search(searchQuery)
     
 })
+

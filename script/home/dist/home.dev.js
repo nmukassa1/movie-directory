@@ -175,18 +175,18 @@ $(document).ready(function () {
 
           case 6:
             data = _context3.sent;
-            console.log(data);
+            //console.log(data)
             backdropPath = data.backdrop_path; //Fecth img base-url & img-size
 
-            _context3.next = 11;
+            _context3.next = 10;
             return regeneratorRuntime.awrap(fetch(imgApi));
 
-          case 11:
+          case 10:
             fetchImgData = _context3.sent;
-            _context3.next = 14;
+            _context3.next = 13;
             return regeneratorRuntime.awrap(fetchImgData.json());
 
-          case 14:
+          case 13:
             imgData = _context3.sent;
             baseUrl = imgData.images.base_url;
             backdropSize = imgData.images.backdrop_sizes[2];
@@ -226,7 +226,7 @@ $(document).ready(function () {
             releaseDate = [releaseDateArr[2], releaseDateArr[1], releaseDateArr[0]].join('-');
             $('#release').text(releaseDate);
 
-          case 32:
+          case 31:
           case "end":
             return _context3.stop();
         }
@@ -530,5 +530,81 @@ $(document).ready(function () {
       $('.directory').empty();
       get(url, '.directory', 'movie');
     });
-  }
+  } //SEARCH FOR MOVE/TV SHOW
+
+
+  $('#search').keypress(function (e) {
+    if (e.key !== 'Enter') return;
+    var searchQuery = $('#search').val();
+    $('#search-results').empty();
+    search(searchQuery);
+    $('#search').val('');
+  });
+
+  function search(searchQuery) {
+    var searchFetch, searchResult, items, i, posterPath, fetchImgData, imgData, baseUrl, backdropSize, imgSrcLink;
+    return regeneratorRuntime.async(function search$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.next = 2;
+            return regeneratorRuntime.awrap(fetch("https://api.themoviedb.org/3/search/movie?api_key=".concat(apiKey, "&language=en-UK&query=").concat(searchQuery, "&page=1&include_adult=true")));
+
+          case 2:
+            searchFetch = _context6.sent;
+            _context6.next = 5;
+            return regeneratorRuntime.awrap(searchFetch.json());
+
+          case 5:
+            searchResult = _context6.sent;
+            items = searchResult.results;
+            console.log(searchResult);
+            i = 0;
+
+          case 9:
+            if (!(i < items.length)) {
+              _context6.next = 24;
+              break;
+            }
+
+            posterPath = items[i].poster_path; //Fecth img base-url & img-size
+
+            _context6.next = 13;
+            return regeneratorRuntime.awrap(fetch(imgApi));
+
+          case 13:
+            fetchImgData = _context6.sent;
+            _context6.next = 16;
+            return regeneratorRuntime.awrap(fetchImgData.json());
+
+          case 16:
+            imgData = _context6.sent;
+            baseUrl = imgData.images.base_url;
+            backdropSize = imgData.images.poster_sizes[4];
+            imgSrcLink = baseUrl + backdropSize + posterPath; //console.log(imgSrcLink)
+            // <a class="poster ${mediaType}" id="${data.results[i].id}" href="page/info.html"><img src="${imgSrcLink}"/></a>
+
+            $('#search-results').append("\n                <button class=\"poster movie\" id=\"".concat(items[i].id, "\"><img src=\"").concat(imgSrcLink, "\"/></button>\n            "));
+
+          case 21:
+            i++;
+            _context6.next = 9;
+            break;
+
+          case 24:
+            //OPEN SEARCH RESULTS
+            $('#search-results').css('max-height', '600px'); //RETRIVE POSTER ID SO I CAN OPEN CORRECT
+            //INFO ON NEW PAGE
+
+            _context6.next = 27;
+            return regeneratorRuntime.awrap(openItemModal());
+
+          case 27:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    });
+  } //search(searchQuery)
+
 });

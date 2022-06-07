@@ -1,7 +1,32 @@
 @import '../_deafult'
 @import '../header'
     
+#header-top
+    position: relative
 
+#search-results
+    background: white
+    position: absolute
+    left: 50%
+    top: 80px
+    width: 80vw
+    transform: translateX(-50%)
+    z-index: 9999
+    display: grid
+    grid-template-columns: repeat(5, 1fr)
+    overflow: scroll
+
+#search
+    background: transparent
+    border: 1px solid #ffffff6e
+    padding: 5px 12px
+    width: 80px
+    outline: none
+    color: white
+    transition: width .5s ease-in-out
+
+#search:focus
+    width: 200px
 
 
 .directory
@@ -112,6 +137,7 @@ main
     align-items: center
     gap: 10px
     font-size: .8rem
+    flex-wrap: wrap
 
 #bio
     max-width: 546px
@@ -184,7 +210,7 @@ main
     nav
         display: grid
 
-    .directory, nav
+    .directory, nav, #search-results
         grid-template-columns: 1fr 1fr
     
     #hero-content
@@ -201,6 +227,6 @@ main
     
     
 @media (max-width: 820px) and (min-width: 415px)
-    .directory
+    .directory, #search-results
         grid-template-columns: 1fr 1fr 1fr 
 
