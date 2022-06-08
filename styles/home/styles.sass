@@ -5,20 +5,82 @@
     position: relative
 
 #search-results
-    background: white
-    position: absolute
-    left: 50%
+    background: hsla(0, 0%, 0%, .5)
+    position: fixed
+    left: 0
     top: 80px
-    width: 80vw
-    transform: translateX(-50%)
+    width: 100vw
     z-index: 9999
-    display: grid
-    grid-template-columns: repeat(5, 1fr)
-    overflow: scroll
+    display: flex
+    flex-direction: column
+    align-items: center
+    height: 0
+    overflow: hidden
+    transition: all .5s ease-in-out
+
+    &-container
+        background: white
+        display: grid
+        grid-template-columns: repeat(5, 1fr)
+        overflow: scroll
+        max-height: 520px
+
+    #close-search-button
+        margin-left: auto
+        font-size: 20px
+        margin-bottom: 10px
+        color: white
+
+
+#radio-container
+    margin-left: auto
+    display: flex
+    margin-right: 19px
+    gap: 15px
+    align-items: center
+
+    &__movie, &__tv
+        display: flex
+        align-items: center
+        grid-gap: 5px
+
+label
+    border: 1px solid hsla(0, 0%, 100%, .7)
+    height: 13px
+    width: 13px
+    border-radius: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    transition: all .5s ease-in-out
+
+.radio-title
+    font-size: 12px
+    pointer-events: none
+    color: hsla(0, 0%, 100%, .7)
+
+.checkmark
+    width: calc( 100% - 6px )
+    height: calc( 100% - 6px )
+    display: inline-block
+    background: hsla(0, 0%, 100%, .7)
+    display: none
+    border-radius: 100%
+    transition: all .5s ease-in-out
+
+
+input[type='radio']
+    display: none
+
+input[type='radio']:checked + .checkmark
+    display: inline-block
+
+
+        
 
 #search
     background: transparent
-    border: 1px solid #ffffff6e
+    border: 1px solid hsla(0, 0%, 100%, .7)
     padding: 5px 12px
     width: 80px
     outline: none
@@ -210,7 +272,7 @@ main
     nav
         display: grid
 
-    .directory, nav, #search-results
+    .directory, nav, #search-results-container
         grid-template-columns: 1fr 1fr
     
     #hero-content
@@ -227,6 +289,6 @@ main
     
     
 @media (max-width: 820px) and (min-width: 415px)
-    .directory, #search-results
+    .directory, #search-results-container
         grid-template-columns: 1fr 1fr 1fr 
 

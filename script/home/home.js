@@ -525,18 +525,34 @@ $(document).ready(function(){
 
     
     //SEARCH FOR MOVE/TV SHOW
+
+
     
     $('#search').keypress((e) =>{
         if(e.key !== 'Enter') return
+
         const searchQuery = $('#search').val();
-        $('#search-results').empty()
+        $('#search-results-container').empty()
+
+        let searchUrl;
+        let mediaType;
+        if($('#radio-movie').is(':checked')){
+            searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-UK&query=${searchQuery}&page=1&include_adult=false`
+
+            mediaType = 'movie'
+        } else{
+            searchUrl = `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&language=en-UK&query=${searchQuery}&page=1&include_adult=false`
+
+            mediaType = 'tv'
+        }
+
         
-        search(searchQuery)
+        search(searchQuery, searchUrl, mediaType)
         $('#search').val('');
     })
 
-    async function search(searchQuery){
-        const searchFetch = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-UK&query=${searchQuery}&page=1&include_adult=true`)
+    async function search(searchQuery, searchUrl, mediaType){
+        const searchFetch = await fetch(searchUrl)
 
         const searchResult = await searchFetch.json();
 
@@ -559,18 +575,26 @@ $(document).ready(function(){
             //console.log(imgSrcLink)
 
             // <a class="poster ${mediaType}" id="${data.results[i].id}" href="page/info.html"><img src="${imgSrcLink}"/></a>
-            $('#search-results').append(`
-                <button class="poster movie" id="${items[i].id}"><img src="${imgSrcLink}"/></button>
+            $('#search-results-container').append(`
+                <button class="poster ${mediaType}" id="${items[i].id}"><img src="${imgSrcLink}"/></button>
             `)
         }
 
         //OPEN SEARCH RESULTS
-        $('#search-results').css('max-height', '600px')
+        $('#search-results').css({'height':'100%', 'padding':'20px', 'overflow':'initial'})
+
+        $('body').css('overflow', 'hidden')
 
         //RETRIVE POSTER ID SO I CAN OPEN CORRECT
         //INFO ON NEW PAGE
         await openItemModal()
     }
+
+    //CLOSE SEARCH RESULTS
+    $('#close-search-button').click(() =>{
+        $('body').css('overflow', 'initial')
+        $('#search-results').css({'height':'0', 'overflow':'hidden', 'padding':'0'})
+    })
 
     //search(searchQuery)
     

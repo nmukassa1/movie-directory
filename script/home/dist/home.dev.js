@@ -536,19 +536,30 @@ $(document).ready(function () {
   $('#search').keypress(function (e) {
     if (e.key !== 'Enter') return;
     var searchQuery = $('#search').val();
-    $('#search-results').empty();
-    search(searchQuery);
+    $('#search-results-container').empty();
+    var searchUrl;
+    var mediaType;
+
+    if ($('#radio-movie').is(':checked')) {
+      searchUrl = "https://api.themoviedb.org/3/search/movie?api_key=".concat(apiKey, "&language=en-UK&query=").concat(searchQuery, "&page=1&include_adult=false");
+      mediaType = 'movie';
+    } else {
+      searchUrl = "https://api.themoviedb.org/3/search/tv?api_key=".concat(apiKey, "&language=en-UK&query=").concat(searchQuery, "&page=1&include_adult=false");
+      mediaType = 'tv';
+    }
+
+    search(searchQuery, searchUrl, mediaType);
     $('#search').val('');
   });
 
-  function search(searchQuery) {
+  function search(searchQuery, searchUrl, mediaType) {
     var searchFetch, searchResult, items, i, posterPath, fetchImgData, imgData, baseUrl, backdropSize, imgSrcLink;
     return regeneratorRuntime.async(function search$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
             _context6.next = 2;
-            return regeneratorRuntime.awrap(fetch("https://api.themoviedb.org/3/search/movie?api_key=".concat(apiKey, "&language=en-UK&query=").concat(searchQuery, "&page=1&include_adult=true")));
+            return regeneratorRuntime.awrap(fetch(searchUrl));
 
           case 2:
             searchFetch = _context6.sent;
@@ -584,7 +595,7 @@ $(document).ready(function () {
             imgSrcLink = baseUrl + backdropSize + posterPath; //console.log(imgSrcLink)
             // <a class="poster ${mediaType}" id="${data.results[i].id}" href="page/info.html"><img src="${imgSrcLink}"/></a>
 
-            $('#search-results').append("\n                <button class=\"poster movie\" id=\"".concat(items[i].id, "\"><img src=\"").concat(imgSrcLink, "\"/></button>\n            "));
+            $('#search-results-container').append("\n                <button class=\"poster ".concat(mediaType, "\" id=\"").concat(items[i].id, "\"><img src=\"").concat(imgSrcLink, "\"/></button>\n            "));
 
           case 21:
             i++;
@@ -593,18 +604,32 @@ $(document).ready(function () {
 
           case 24:
             //OPEN SEARCH RESULTS
-            $('#search-results').css('max-height', '600px'); //RETRIVE POSTER ID SO I CAN OPEN CORRECT
+            $('#search-results').css({
+              'height': '100%',
+              'padding': '20px',
+              'overflow': 'initial'
+            });
+            $('body').css('overflow', 'hidden'); //RETRIVE POSTER ID SO I CAN OPEN CORRECT
             //INFO ON NEW PAGE
 
-            _context6.next = 27;
+            _context6.next = 28;
             return regeneratorRuntime.awrap(openItemModal());
 
-          case 27:
+          case 28:
           case "end":
             return _context6.stop();
         }
       }
     });
-  } //search(searchQuery)
+  } //CLOSE SEARCH RESULTS
 
+
+  $('#close-search-button').click(function () {
+    $('body').css('overflow', 'initial');
+    $('#search-results').css({
+      'height': '0',
+      'overflow': 'hidden',
+      'padding': '0'
+    });
+  }); //search(searchQuery)
 });

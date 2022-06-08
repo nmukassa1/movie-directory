@@ -26,8 +26,25 @@
             <div id="brand">
                 <a href="index.html">FIND?</a>
             </div>
-            <!-- <button id="search"><i class="fa-solid fa-magnifying-glass"></i></button> -->
-            <input id="search" type="text" placeholder="SEARCH">
+            <div id="radio-container">
+                <div id="radio-container__movie">
+                    <span class="radio-title">MOVIE</span>
+                    <label for="radio-movie">
+                        <input name="search_selectio" type="radio" id="radio-movie" value="movie" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div id="radio-container__tv">
+                    <span class="radio-title">TV</span>
+                    <label for="radio-tv">
+                        <input name="search_selectio" type="radio" id="radio-tv" value="tv">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+           <div id="search-container">
+                <input id="search" type="text" placeholder="SEARCH">
+           </div>
         </div>
         
 
@@ -39,7 +56,12 @@
             <button id="filter" href="page/favourites.html">Filter</button>
         </nav>
     </header>   
-    <div id="search-results"></div>
+    <div id="search-results">
+        <button id="close-search-button">
+            <i class="fa-solid fa-x"></i>
+        </button>
+        <div id="search-results-container"></div>
+    </div>
 
     <main class="directory">
             <!-- DIRECTORY PLACED HERE-->
