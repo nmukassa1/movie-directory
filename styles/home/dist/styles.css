@@ -58,8 +58,15 @@ header a, header i {
   color: white;
 }
 
+nav {
+  background: #002342;
+}
 nav a + a {
   margin-left: 30px;
+}
+
+nav button {
+  color: white;
 }
 
 #header-top {
@@ -205,6 +212,13 @@ main {
 .genre-button-toggle {
   background-color: #00B5E8;
   color: white;
+}
+
+#genre-search {
+  background: #002342;
+  color: white;
+  padding: 0.5em 0.7em;
+  border-radius: 5px;
 }
 
 .modal {
@@ -362,6 +376,10 @@ main {
 
   #hero {
     padding: 0 20px;
+  }
+
+  .genre {
+    width: 90%;
   }
 }
 @media (max-width: 820px) and (min-width: 415px) {

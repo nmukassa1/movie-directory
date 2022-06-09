@@ -10,6 +10,9 @@ header a, header i {
   color: white;
 }
 
+nav {
+  background: #002342;
+}
 nav a + a {
   margin-left: 30px;
 }

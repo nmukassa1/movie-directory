@@ -69,8 +69,16 @@ header a, header i {
   color: white;
 }
 
+nav {
+  background: #002342;
+}
+
 nav a + a {
   margin-left: 30px;
+}
+
+nav button {
+  color: white;
 }
 
 #header-top {
@@ -265,6 +273,13 @@ main {
   color: white;
 }
 
+#genre-search {
+  background: #002342;
+  color: white;
+  padding: .5em .7em;
+  border-radius: 5px;
+}
+
 .modal {
   position: fixed;
   height: 0;
@@ -446,6 +461,9 @@ main {
   }
   #hero {
     padding: 0 20px;
+  }
+  .genre {
+    width: 90%;
   }
 }
 
